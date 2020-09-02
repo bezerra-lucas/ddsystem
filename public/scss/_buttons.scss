@@ -1,0 +1,25 @@
+.button{
+  $button-text-color: rgb(236, 236, 236);
+  color: $button-text-color !important;
+  *{
+    text-decoration: none;
+    color: $button-text-color !important;
+  }
+  padding: 10px 15px 10px 15px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  outline:none;
+  &:hover{
+    filter: opacity(0.8);
+  }
+}
+
+.button-disabled{
+  background-color: rgb(216, 216, 216) !important;
+  color: rgb(100, 100, 100) !important; 
+  cursor: default;
+  &:hover{
+    filter: opacity(1) !important;
+  }
+} 

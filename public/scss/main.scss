@@ -1,1 +1,16 @@
 @import 'colors';
+@import 'reset';
+@import 'fonts';
+@import 'buttons';
+@import 'text';
+@import 'spacing';
+@import 'navbar';
+
+.hidden{
+  display: none !important;
+}
+
+body, html{
+  margin: 0;
+  padding: 0;
+}

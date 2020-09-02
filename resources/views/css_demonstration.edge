@@ -1,0 +1,68 @@
+@layout('layouts/master.edge')
+
+@section('container')
+
+    <header class="header">
+      <nav class="navbar">
+        <div class="title">
+          <h4>Osaka Dedetizadora</h4>
+        </div>
+        <ul class="left">
+          <li href="#"><a>Clientes</a></li>
+          <li href="#"><a>Users</a></li>
+          <li href="#"><a>Sells</a></li>
+          <li href="#"><a>Budgets</a></li>
+        </ul>
+        <ul class="right">
+          <li href="#"><a><i class="material-icons">notifications</i></a></li>
+          <li href="#"><a><i class="material-icons">person</i></a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="main">
+      <div class="container">
+        <section class="section">
+          <div class="box">
+            <h2>Titles</h2>
+            <h1>Big Title</h1>
+            <h2>Medium Title</h2>
+            <h3>Small Title</h3>
+            <h4>Mini Title</h4>
+            <h5>Super Mini Title</h5>
+            <h6>I dont even have a name for it</h6>
+          </div>
+
+          <div class="box">
+            <h2>Paragraph</h2>
+            <h3>Paragraph</h3>
+            <p>But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure</p>
+          </div>
+        </section>
+
+        <section class="section">
+          <h1>Buttons</h1>
+          <hr>
+          <button class="button bg-red">Danger Button</button>
+          <button class="button bg-blue">Blue Button</button>
+          <button class="button button-disabled" disabled="disabled">Disabled Button</button>
+        </section>
+
+        <section class="section">
+          <h1>Modals</h1>
+          <hr>
+          <button class="button bg-orange">Open Modal</button>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <div class="modal hidden">
+    <div class="background"></div>
+    <div class="header">
+      <h2>Criar Endereço</h2>
+    </div>
+    <div class="main"></div>
+    <div class="footer"></div>
+  </div>
+@endsection

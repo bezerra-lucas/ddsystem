@@ -1,0 +1,10 @@
+@layout('layouts/master.edge')
+
+@section('container')
+  <form action="{{ route('AuthController.register') }}" method="POST">
+    <input type="email" name="email" placeholder="Email">
+    <input type="password" name="password" placeholder="Senha">
+    <input type="password" name="password_confirmation" placeholder="Confirme sua Senha">
+    <button type="submit">Enviar</button>
+  </form>
+@endsection
