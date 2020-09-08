@@ -1,0 +1,97 @@
+@layout('layouts/master.edge')
+
+@section('style')
+<style>
+
+  form{
+    margin: 0 auto 0 auto;
+    max-width: 1000px;
+  }
+
+  .section-title{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  
+  .section-title h5{
+    margin: 0 !important;
+  }
+
+  .section-title a{
+    margin-left: auto;
+  }
+
+</style>
+@endsection
+
+@section('main')
+
+  <form action="{{ route('ClientsController.create') }}" method="post">
+    <h5 class="mt-2 mb-2">Cadastro Clientes</h5>
+
+    <div class="row">
+      <div class="col s12">
+        <select>
+          <option value="pf">Pessoa Física</option>
+          <option value="pj">Pessoa Jurídica</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col s6"><input type="text" name="client_name" placeholder="Nome"></div>
+      <div class="col s6"><input type="text" name="client_cpf" placeholder="CPF"></div>
+    </div>
+    
+    <div class="row">
+      <div class="col s6"><input class="mb-1" type="date" name="visit_date"></div>
+      <div class="col s6"><input class="mb-1" type="time" name="visit_time"></div>
+    </div>
+
+    <div class="row">
+      <div class="col s12">
+        <select name="visit_service">
+          <option selected disabled>Serviço</option>
+          @each(service in services)
+            <option value="{{service.id}}">{{service.name}}</option>
+          @endeach
+        </select>
+      </div>
+    </div>
+
+    <div class="section-title mt-3 mb-1">
+      <h5>Endereços</h5>
+      <a class="btn-floating btn-large waves-effect waves-light blue darken-1"><i class="material-icons">add</i></a>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Nome ID</th>
+          <th>Cep</th>
+          <th>Rua</th>
+          <th>Número</th>
+          <th>Apagar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Alvin</td>
+          <td>Eclair</td>
+          <td>$0.87</td>
+          <td>$0.87</td>
+          <td><a class="waves-effect waves-light btn-small red darken-1">Apagar</a></td>
+        </tr>
+      </tbody>
+    </table>
+
+
+    <div class="flex-wrapper justify-content-center">
+      <button class="btn waves-effect waves-light" type="submit" name="action">Enviar
+        <i class="material-icons right">send</i>
+      </button>
+    </div>
+  </form>
+
+@endsection

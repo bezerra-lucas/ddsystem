@@ -1,16 +1,68 @@
-@import 'colors';
-@import 'reset';
-@import 'fonts';
-@import 'buttons';
-@import 'text';
-@import 'spacing';
-@import 'navbar';
+.mt-1{margin-top: 1em !important}
+.mt-2{margin-top: 2em !important}
+.mt-3{margin-top: 3em !important}
+.mt-4{margin-top: 4em !important}
+.mt-5{margin-top: 5em !important}
+.mt-6{margin-top: 6em !important}
+.mt-7{margin-top: 7em !important}
+.mt-8{margin-top: 8em !important}
+.mt-9{margin-top: 9em !important}
 
-.hidden{
-  display: none !important;
-}
+.mb-1{margin-bottom: 1em !important}
+.mb-2{margin-bottom: 2em !important}
+.mb-3{margin-bottom: 3em !important}
+.mb-4{margin-bottom: 4em !important}
+.mb-5{margin-bottom: 5em !important}
+.mb-6{margin-bottom: 6em !important}
+.mb-7{margin-bottom: 7em !important}
+.mb-8{margin-bottom: 8em !important}
+.mb-9{margin-bottom: 9em !important}
+
+.mr-1{margin-right: 1em !important}
+.mr-2{margin-right: 2em !important}
+.mr-3{margin-right: 3em !important}
+.mr-4{margin-right: 4em !important}
+.mr-5{margin-right: 5em !important}
+.mr-6{margin-right: 6em !important}
+.mr-7{margin-right: 7em !important}
+.mr-8{margin-right: 8em !important}
+.mr-9{margin-right: 9em !important}
+
+.ml-1{margin-left: 1em !important}
+.ml-2{margin-left: 2em !important}
+.ml-3{margin-left: 3em !important}
+.ml-4{margin-left: 4em !important}
+.ml-5{margin-left: 5em !important}
+.ml-6{margin-left: 6em !important}
+.ml-7{margin-left: 7em !important}
+.ml-8{margin-left: 8em !important}
+.ml-9{margin-left: 9em !important}
 
 body, html{
-  margin: 0;
-  padding: 0;
+  background-color: rgb(245, 245, 245);
+}
+
+.page-title{
+  font-size: 24px;
+}
+
+main{
+  margin: 20px auto 0 auto;
+  width: 90vw;
+}
+
+.flex-wrapper{
+  display: flex;
+}
+
+.justify-content-center{
+  justify-content: center;
+}
+
+.dropdown-icon{
+  margin-left: 0 !important;
+}
+
+.text-helper{
+  color: rgb(160, 160, 160);
 }

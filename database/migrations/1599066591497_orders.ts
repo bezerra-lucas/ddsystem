@@ -7,7 +7,7 @@ export default class Orders extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
 
-      table.integer('type', 10)
+      table.integer('type', 1)
 
       table.string('date', 8)
       table.string('time', 6)

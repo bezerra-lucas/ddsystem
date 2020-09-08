@@ -13,11 +13,28 @@ Route.group(() => {
 
 Route.group(() => {
   Route.get('/', async ({ view }) => {
-    return view.render('cadastrar')
+    return view.render('usuarios/cadastrar')
   })
-  Route.post('/', 'AuthController.register')
-}).prefix('cadastrar')
+  Route.post('/cadastrar', 'AuthController.register')
+}).prefix('usuarios')
+
+Route.group(() => {
+  Route.get('/', async ({ view }) => {
+    return view.render('rastreamento/painel_rastreamento')
+  })
+}).prefix('rastreamento')
+
+Route.group(() => {
+  Route.get('/agenda', async ({ view }) => {
+    return view.render('ordens/agenda')
+  })
+}).prefix('ordens')
 
 Route.get('/', async ({ view }) => {
-  return view.render('css_demonstration')
+  return view.render('homepage')
 }).middleware('auth')
+
+Route.group(() => {
+  Route.get('cadastrar', 'ClientsController.createForm')
+  Route.post('cadastrar', 'ClientsController.create')
+}).prefix('clientes').middleware('auth')
