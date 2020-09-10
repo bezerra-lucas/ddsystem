@@ -8,18 +8,8 @@
     max-width: 1000px;
   }
 
-  .section-title{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
-  
-  .section-title h5{
-    margin: 0 !important;
-  }
-
-  .section-title a{
-    margin-left: auto;
+  .modal{
+    max-width: 500px;
   }
 
 </style>
@@ -40,8 +30,14 @@
     </div>
 
     <div class="row">
-      <div class="col s6"><input type="text" name="client_name" placeholder="Nome"></div>
-      <div class="col s6"><input type="text" name="client_cpf" placeholder="CPF"></div>
+      <div class="input-field col s6">
+        <input type="text" name="client_name">
+        <label for="client_name">Nome</label>
+      </div>
+      <div class="input-field col s6">
+        <input type="text" name="client_cpf">
+        <label for="client_cpf">CPF</label>
+      </div>
     </div>
     
     <div class="row">
@@ -62,36 +58,104 @@
 
     <div class="section-title mt-3 mb-1">
       <h5>Endereços</h5>
-      <a class="btn-floating btn-large waves-effect waves-light blue darken-1"><i class="material-icons">add</i></a>
+      <a class="btn-floating btn-large waves-effect waves-light blue darken-1 modal-trigger" href="#address_modal"><i class="material-icons">add</i></a>
     </div>
 
     <table>
       <thead>
         <tr>
-          <th>Nome ID</th>
+          <th>Nome</th>
           <th>Cep</th>
           <th>Rua</th>
           <th>Número</th>
           <th>Apagar</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="address_tbody">
         <tr>
-          <td>Alvin</td>
-          <td>Eclair</td>
-          <td>$0.87</td>
-          <td>$0.87</td>
-          <td><a class="waves-effect waves-light btn-small red darken-1">Apagar</a></td>
+          
         </tr>
       </tbody>
     </table>
 
 
-    <div class="flex-wrapper justify-content-center">
+    <div class="flex-wrapper justify-content-center mt-2">
       <button class="btn waves-effect waves-light" type="submit" name="action">Enviar
         <i class="material-icons right">send</i>
       </button>
     </div>
   </form>
 
+
+  <div id="address_modal" class="modal">
+    <div class="modal-content">
+      <h5>Adicionar Endereço</h4>
+      <div class="row">
+        <div class="input-field col s6">
+          <input type="text" id="address_name">
+          <label for="address_name">Nome</label>
+        </div>
+        <div class="input-field col s6">
+          <input type="text" id="address_cep">
+          <label for="address_cep">CEP</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s6">
+          <input class="mb-1" type="text" id="address_street">
+          <label for="address_name">Rua</label>
+        </div>
+        <div class="input-field col s6">
+          <input class="mb-1" type="text" id="address_number">
+          <label for="address_cep">Número</label>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button id="submitAddress" class="btn waves-effect waves-light mb-2 mr-1" type="submit" name="action">Salvar</button>
+    </div>
+  </div>
+
+@endsection
+
+@section('script')
+<script>
+
+  $(document).ready(function(){
+
+    const modal = $('.modal').modal();
+  
+    var address_count = 0;
+
+    $('#submitAddress').on('click', () => {
+      $('#address_name').val();
+      $('#address_cep').val();
+      $('#address_street').val();
+      $('#address_number').val();
+
+      $('#address_tbody').append(`
+        <tr>
+          <td>${$('#address_name').val()}</td>
+          <td>${$('#address_cep').val()}</td>
+          <td>${$('#address_street').val()}</td>
+          <td>${$('#address_number').val()}</td>
+          <td><button type="button" class="waves-effect waves-light btn-small red darken-1" id="delete_row">Apagar</button></td>
+        </tr> 
+      `);
+
+      $('#address_name').val('');
+      $('#address_cep').val('');
+      $('#address_street').val('');
+      $('#address_number').val('');
+
+      $('.modal').modal().close();
+    });
+
+    
+  });
+  $('#delete_row').click(function() {
+    alert('test')
+    $(this).closest("tr").remove();
+  });
+</script>
 @endsection

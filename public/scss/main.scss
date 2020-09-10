@@ -42,6 +42,14 @@ body, html{
   background-color: rgb(245, 245, 245);
 }
 
+.modal-content{
+  padding-bottom: 2px !important;
+}
+
+.modal-footer{
+  padding-bottom: 20px !important;
+}
+
 .page-title{
   font-size: 24px;
 }
@@ -65,4 +73,73 @@ main{
 
 .text-helper{
   color: rgb(160, 160, 160);
+}
+
+.container{
+  max-width: 900px !important;
+  margin: 0 auto 0 auto !important;
+}
+
+.section-title{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.section-title h5{
+  margin: 0 !important;
+}
+
+.section-title a{
+  margin-left: auto;
+}
+
+.user-panel{
+  right: 15px;
+  top: 60px;
+  position: absolute !important;
+  max-width: 350px !important;
+  width: 90% !important;
+
+  .user-panel-header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .user-icon{
+      border-radius: 99999px;
+      width: 60px;
+      height: 60px;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .user-identification{
+      margin-left: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .user-name{
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .user-actions{
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      right: 20px;
+    }
+  }
+}
+
+.hide{
+  display: none !important;
+}
+
+.ql-editor strong{
+  font-weight:bold !important;
 }
