@@ -35,14 +35,18 @@
         <label for="client_name">Nome</label>
       </div>
       <div class="input-field col s6">
-        <input type="text" name="client_cpf">
+        <input type="text" name="client_cpf" class="cpf">
         <label for="client_cpf">CPF</label>
       </div>
     </div>
     
     <div class="row">
-      <div class="col s6"><input class="mb-1" type="date" name="visit_date"></div>
-      <div class="col s6"><input class="mb-1" type="time" name="visit_time"></div>
+      <div class="col s6">
+        <input class="mb-1" type="date" name="visit_date">
+      </div>
+      <div class="col s6">
+        <input class="mb-1" type="time" name="visit_time">
+      </div>
     </div>
 
     <div class="row">
@@ -61,7 +65,7 @@
       <a class="btn-floating btn-large waves-effect waves-light blue darken-1 modal-trigger" href="#address_modal"><i class="material-icons">add</i></a>
     </div>
 
-    <table>
+    <table id="address_table">
       <thead>
         <tr>
           <th>Nome</th>
@@ -71,11 +75,7 @@
           <th>Apagar</th>
         </tr>
       </thead>
-      <tbody id="address_tbody">
-        <tr>
-          
-        </tr>
-      </tbody>
+      <tbody id="address_tbody"></tbody>
     </table>
 
 
@@ -86,7 +86,6 @@
     </div>
   </form>
 
-
   <div id="address_modal" class="modal">
     <div class="modal-content">
       <h5>Adicionar Endereço</h4>
@@ -96,7 +95,7 @@
           <label for="address_name">Nome</label>
         </div>
         <div class="input-field col s6">
-          <input type="text" id="address_cep">
+          <input type="text" id="address_cep" class="cep">
           <label for="address_cep">CEP</label>
         </div>
       </div>
@@ -121,41 +120,45 @@
 @section('script')
 <script>
 
-  $(document).ready(function(){
-
-    const modal = $('.modal').modal();
   
-    var address_count = 0;
-
-    $('#submitAddress').on('click', () => {
-      $('#address_name').val();
-      $('#address_cep').val();
-      $('#address_street').val();
-      $('#address_number').val();
-
-      $('#address_tbody').append(`
-        <tr>
-          <td>${$('#address_name').val()}</td>
-          <td>${$('#address_cep').val()}</td>
-          <td>${$('#address_street').val()}</td>
-          <td>${$('#address_number').val()}</td>
-          <td><button type="button" class="waves-effect waves-light btn-small red darken-1" id="delete_row">Apagar</button></td>
-        </tr> 
-      `);
-
-      $('#address_name').val('');
-      $('#address_cep').val('');
-      $('#address_street').val('');
-      $('#address_number').val('');
-
-      $('.modal').modal().close();
-    });
-
-    
+  $(document).ready(function(){
+    const modal = $('.modal').modal();
   });
-  $('#delete_row').click(function() {
-    alert('test')
-    $(this).closest("tr").remove();
+
+  var address_count = 0;
+
+  $('#submitAddress').on('click', () => {
+    $('#address_name').val();
+    $('#address_cep').val();
+    $('#address_street').val();
+    $('#address_number').val();
+
+    $('#address_tbody').append(`
+      <tr>
+        <td>${$('#address_name').val()}</td>
+        <td>${$('#address_cep').val()}</td>
+        <td>${$('#address_street').val()}</td>
+        <td>${$('#address_number').val()}</td>
+        <td><buttontype="button" class="remove waves-effect waves-light btn-small red darken-1">Apagar</button></td>
+      </tr> 
+    `);
+
+    $('#address_name').val('');
+    $('#address_cep').val('');
+    $('#address_street').val('');
+    $('#address_number').val('');
+
+    address_count++;
+    alert(address_count);
+    $('.modal').modal().close();
   });
+
+  
+  $(document).on("click", ".remove", function() { 
+    $(this).closest('tr').remove();
+    address_count = address_count - 1;
+    alert(address_count);
+  });
+
 </script>
 @endsection

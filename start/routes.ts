@@ -47,4 +47,7 @@ Route.get('/', async ({ view }) => {
 Route.group(() => {
   Route.get('cadastrar', 'ClientsController.createForm')
   Route.post('cadastrar', 'ClientsController.create')
+  Route.get('pesquisar', async ({ view }) => {
+    return view.render('clientes/pesquisar')
+  })
 }).prefix('clientes').middleware('auth')

@@ -3,10 +3,12 @@
 @section('style')
   <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.3.1/main.min.css' rel='stylesheet' />
   <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.3.1/main.min.js'></script>
+  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.3.1/locales-all.js'></script>
   <style>
 
     #calendar{
       max-width: 1000px;
+      margin: 0 auto 0 auto;
     }
 
   </style>
@@ -18,11 +20,16 @@
 
 @section('script')
 <script>
-
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
-      initialView: 'dayGridMonth'
+      locale: 'pt-br',
+      initialView: 'timeGridWeek',
+      headerToolbar: {
+        left: 'dayGridMonth,timeGridWeek,timeGridDay',
+        center: 'title',
+        right: 'prev,next'
+      },
     });
     calendar.render();
   });
