@@ -107,6 +107,10 @@ main{
   justify-content: center;
 }
 
+.align-items-center{
+  align-items: center;
+}
+
 .dropdown-icon{
   margin-left: 0 !important;
 }
@@ -203,7 +207,35 @@ body{
 footer{
   position: relative;
   bottom: 0px;
+  padding: 7px 0 7px 0;
+
+  p{
+    margin: 0;
+  }
 }
 main {
   flex: 1 0 auto;
 }
+
+.error-message{
+  flex-direction: column;
+  i{
+    font-size: 120px !important;
+    margin: 0 20px 0 0;
+    color: #e53935;
+  }
+  font-size: 30px !important;
+}
+
+hr{
+  height: 1px !important;
+  background-color: rgb(211, 211, 211) !important;
+  border: none !important;
+}
+
+.tabs .tab a:hover, .tabs .tab a.active, .tab a {
+  color: #1e88e5 !important;
+}
+.tabs .indicator {
+  background-color: #1e88e5 !important;
+} /*Color of underline*/

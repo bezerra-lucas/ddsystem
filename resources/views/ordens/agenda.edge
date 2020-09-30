@@ -11,6 +11,10 @@
       margin: 0 auto 0 auto;
     }
 
+    .fc-event-main{
+      cursor: pointer;
+    }
+
   </style>
 @endsection
 
@@ -19,7 +23,8 @@
 @endsection
 
 @section('script')
-<script>
+<script>  
+
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -30,6 +35,12 @@
         center: 'title',
         right: 'prev,next'
       },
+      eventDisplay: 'block',
+      eventBorderColor: 'rgba(0, 0, 0, 0)',
+      events: {{{ orders }}},
+      eventClick: function(info) {
+        window.location.href = "/ordens/painel/" + info.event.id;
+      }
     });
     calendar.render();
   });

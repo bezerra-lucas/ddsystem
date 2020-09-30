@@ -5,6 +5,24 @@ export default class Address extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
+  @column()
+  public name: string
+
+  @column()
+  public cep: string
+
+  @column()
+  public street: string
+
+  @column()
+  public number: string
+
+  @column()
+  public client_id: number
+
+  @column()
+  public user_id: number
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

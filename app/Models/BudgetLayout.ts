@@ -11,6 +11,9 @@ export default class BudgetLayout extends BaseModel {
   @column()
   public content: string
 
+  @column()
+  public user_id: Number
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

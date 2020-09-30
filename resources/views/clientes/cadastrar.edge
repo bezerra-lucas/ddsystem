@@ -18,9 +18,9 @@
 @section('main')
 
   <form action="{{ route('ClientsController.create') }}" method="post" onsubmit="submitForm()" class="mb-5">
-    <h5 class="mt-2 mb-2">Cadastro Clientes</h5>
+    <h4 class="">Cadastro Clientes</h4>
 
-    <div class="row">
+    <div class="row mt-3">
       <div class="col s12">
         <select>
           <option value="pf">Pessoa Física</option>
@@ -42,16 +42,16 @@
     
     <div class="row">
       <div class="col s6">
-        <input class="mb-1" type="date" name="visit_date">
+        <input class="mb-1" type="date" name="order_date">
       </div>
       <div class="col s6">
-        <input class="mb-1" type="time" name="visit_time">
+        <input class="mb-1" type="time" name="order_time">
       </div>
     </div>
 
     <div class="row">
       <div class="col s12">
-        <select name="visit_service">
+        <select name="order_service">
           <option selected disabled>Serviço</option>
           @each(service in services)
             <option value="{{service.id}}">{{service.name}}</option>
@@ -176,11 +176,16 @@
 
 @section('script')
 <script>
+  $(document).ready(function(){
+    $('select').formSelect();
+  });
 
   $(document).ready(function() {
     $('form').on('submit', function(e){
-      e.preventDefault();
+
       var addresses = Array();
+      var contacts = Array();
+
       $("#address_tbody tr").each(function(i, v){
         addresses[i] = Array();
         $(this).children('td').each(function(ii, vv){
@@ -188,9 +193,33 @@
             return;
           } else {
             addresses[i][ii] = $(this).text();
+            $('form').append(`
+              <input type="text" name="${$(this).attr("class") + i}" value="${addresses[i][ii]}" />
+            `);
           }
         }); 
-      })
+      });
+
+      $("#contact_tbody tr").each(function(i, v){
+        contacts[i] = Array();
+        $(this).children('td').each(function(ii, vv){
+          if($(this).hasClass('ignore')){
+            return;
+          } else {
+            contacts[i][ii] = $(this).text();
+            $('form').append(`
+              <input type="text" name="${$(this).attr("class") + i}" value="${contacts[i][ii]}" />
+            `);
+          }
+        }); 
+      });
+
+      $('form').append(`
+        <input type="text" name="address_count" value="${address_count}" />
+        <input type="text" name="contact_count" value="${contact_count}" />
+      `);
+      
+      return false;
     });
   });
   
@@ -204,10 +233,10 @@
   $('#submitAddress').on('click', () => {
     $('#address_tbody').append(`
       <tr>
-        <td>${$('#address_name').val()}</td>
-        <td>${$('#address_cep').val()}</td>
-        <td>${$('#address_street').val()}</td>
-        <td>${$('#address_number').val()}</td>
+        <td class="address_name">${$('#address_name').val()}</td>
+        <td class="address_cep">${$('#address_cep').val()}</td>
+        <td class="address_street">${$('#address_street').val()}</td>
+        <td class="address_number">${$('#address_number').val()}</td>
         <td class="ignore"><buttontype="button" class="remove waves-effect waves-light btn-small red darken-1 address">Apagar</button></td>
       </tr> 
     `);
@@ -227,10 +256,10 @@
   $('#submitContact').on('click', () => {
     $('#contact_tbody').append(`
       <tr>
-        <td>${$('#contact_name').val()}</td>
-        <td>${$('#contact_email').val()}</td>
-        <td>${$('#contact_phone').val()}</td>
-        <td>${$('#contact_responsible').val()}</td>
+        <td class="contact_name">${$('#contact_name').val()}</td>
+        <td class="contact_email">${$('#contact_email').val()}</td>
+        <td class="contact_phone">${$('#contact_phone').val()}</td>
+        <td class="contact_responsible">${$('#contact_responsible').val()}</td>
         <td class="ignore"><buttontype="button" class="remove waves-effect waves-light btn-small red darken-1 contact">Apagar</button></td>
       </tr> 
     `);
@@ -240,7 +269,7 @@
       $('#contact_phone').val('');
       $('#contact_responsible').val('');
 
-    address_count++;
+    contact_count++;
     $('#contact_table').removeClass('hide');
     $('#alert_contact').addClass('hide');
 
@@ -255,11 +284,11 @@
     } else if($(this).hasClass('contact')){
       contact_count = contact_count - 1;
     }
-    if(address_count == 0){
+    if(address_count === 0){
       $('#address_table').addClass('hide');
       $('#alert_address').removeClass('hide');
     }
-    if(contact_count == 0){
+    if(contact_count === 0){
       $('#contact_table').addClass('hide');
       $('#alert_contact').removeClass('hide');
     }

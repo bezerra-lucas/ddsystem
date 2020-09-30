@@ -24,8 +24,11 @@ Route.group(() => {
 
 Route.group(() => {
   Route.get('/', 'BudgetLayoutsController.index')
+
   Route.get('/cadastrar', 'BudgetLayoutsController.createForm')
   Route.post('/cadastrar', 'BudgetLayoutsController.create')
+
+  Route.get('/apagar/:id', 'BudgetLayoutsController.delete')
 }).prefix('modelos').middleware('auth')
 
 Route.group(() => {
@@ -35,9 +38,10 @@ Route.group(() => {
 }).prefix('rastreamento').middleware('auth')
 
 Route.group(() => {
-  Route.get('/agenda', async ({ view }) => {
-    return view.render('ordens/agenda')
-  })
+  Route.get('/agenda', 'OrdersController.schedule')
+  Route.get('/painel/:id', 'OrdersController.panel')
+
+  Route.post('/painel/editar', 'OrdersController.edit')
 }).prefix('ordens').middleware('auth')
 
 Route.get('/', async ({ view }) => {
@@ -47,7 +51,16 @@ Route.get('/', async ({ view }) => {
 Route.group(() => {
   Route.get('cadastrar', 'ClientsController.createForm')
   Route.post('cadastrar', 'ClientsController.create')
+
+  Route.get('painel/:id', 'ClientsController.dashboard')
+
+  Route.get('painel/:id/informacoes', 'ClientsController.informations')
+  Route.get('painel/:id/orcamentos', 'ClientsController.budgets')
+  Route.get('painel/:id/ordens', 'ClientsController.orders')
+  Route.get('painel/:id/historico', 'ClientsController.historic')
+
   Route.get('pesquisar', async ({ view }) => {
     return view.render('clientes/pesquisar')
   })
+  Route.post('pesquisar', 'ClientsController.search')
 }).prefix('clientes').middleware('auth')
