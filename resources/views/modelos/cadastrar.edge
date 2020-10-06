@@ -13,12 +13,11 @@
 
 @section('main')
 <form class="container" action="{{ route('BudgetLayoutsController.create') }}" method="POST" id="submitForm">
-  <h4>Cadastrar Modelo de Orçamento</h4>
-  <hr class="mt-2 mb-2">
+  <h4 class="mb-1">Cadastrar Modelo de Orçamento</h4>
   
   <div class="input-field row">
     <input type="text" class="col s12" name="layout_name">
-    <input type="text" class="col s12" name="layout_content" id="layout_content">
+    <input type="text" class="col s12 hide" name="layout_content" id="layout_content">
     <label for="layout_name">Nome do Modelo</label>
   </div>
   <div id="editor"></div>

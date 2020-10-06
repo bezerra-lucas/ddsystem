@@ -12,6 +12,7 @@
 
 
 @section('main')
+
   <form action="{{ route('ClientsController.search') }}" method="POST">
     <div class="row container">
       <div class="input-field col s4">
@@ -53,9 +54,27 @@
           <tr>
             <td>{{res.id}}</td>
             <td>{{res.name}}</td>
-            <td>{{res.cpf}}</td>
-            <td>{{res.cnpj}}</td>
-            <td>{{res.user_name}}</td>
+            <td>
+              @if(res.cpf)
+                {{res.cpf}}
+              @else
+                -
+              @endif
+            </td>
+            <td>
+              @if(res.cnpj != null)
+                {{res.cnpj}}
+              @else
+                -
+              @endif
+            </td>
+            <td>
+              @if(res.user_name)
+                {{res.user_name}}
+              @else
+                -
+              @endif
+            </td>
             <td><a class="btn-floating btn-small waves-effect waves-light indigo" href="/clientes/painel/{{{res.id}}}"><i class="material-icons">edit</i></a></td>
           </tr>
         @endeach
@@ -80,9 +99,27 @@
         <tr>
           <td>{{client.id}}</td>
           <td>{{client.name}}</td>
-          <td>{{client.cpf}}</td>
-          <td>{{client.cnpj}}</td>
-          <td>{{client.user_name}}</td>
+          <td>
+            @if(client.cpf)
+              {{client.cpf}}
+            @else
+              -
+            @endif
+          </td>
+          <td>
+            @if(client.cnpj != null)
+              {{client.cnpj}}
+            @else
+              -
+            @endif
+          </td>
+          <td>
+            @if(client.user_name)
+              {{client.user_name}}
+            @else
+              -
+            @endif
+          </td>
           <td><a class="btn-floating btn-small waves-effect waves-light indigo" href="/clientes/painel/{{{client.id}}}"><i class="material-icons">edit</i></a></td>
         </tr>
       </tbody>

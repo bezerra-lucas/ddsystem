@@ -12,8 +12,6 @@ export default class BudgetLayoutsController {
   }
 
   public async create ({ request, response, auth } : HttpContextContract){
-    const data = request.all()
-
     const budgetSchema = schema.create({
       layout_name: schema.string({}, [
         rules.required(),
