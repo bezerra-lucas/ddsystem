@@ -17,12 +17,16 @@
     <h4>Modelos de Orçamento</h4>
     <a class="btn-floating btn-large waves-effect waves-light blue darken-1 modal-trigger" href="/modelos/cadastrar"><i class="material-icons">add</i></a>
   </div>
-  @if(layouts === null || layouts === '' || !layouts || layouts === [])
-    Nenhum serviço cadastrado!
+  <hr>
+  @if(layouts == "")
+  <div id="alert_contact" class="alert indigo">
+    <p>Nenhum modelo cadastrado, clique no <b>+</b> acima para cadastrar.</p>
+  </div>
   @else
     <table>
       <thead>
         <tr>
+          <th>ID</th>
           <th>Nome</th>
           <th>Ações</th>
         </tr>
@@ -30,9 +34,12 @@
     <tbody>
       @each(layout in layouts)
         <tr>
+          <td>{{layout.id}}</td>
           <td>{{layout.name}}</td>
-          <td><a href="/modelos/editar/{{layout.id}}" class="waves-effect waves-light btn-small teal darken-1">Editar</a></td>
-          <td><a href="#modal{{{layout.id}}}" class="waves-effect waves-light btn-small red darken-1 modal-trigger">Apagar</a></td>
+          <td>
+            <a class="btn-floating btn-small waves-effect waves-light indigo" href="/modelos/editar/{{{layout.id}}}"><i class="material-icons">edit</i></a>
+            <a class="btn-floating btn-small waves-effect waves-light red modal-trigger" href="#modal{{{layout.id}}}"><i class="material-icons">delete</i></a>
+          </td>
         </tr>
       @endeach
     </tbody>
@@ -47,7 +54,7 @@
     </div>
     <div class="modal-footer">
       <a href="#!" class="modal-close waves-effect btn-small grey darken-1 color-white">Cancelar</a>
-      <a href="/modelos/apagar/{{layout.id}}" class="w0aves-effect btn-small red darken-1">Apagar</a>
+      <a href="/modelos/apagar/{{layout.id}}" class="w0aves-effect btn-small red darken-1">Confirmar</a>
     </div>
   </div>
 @endeach

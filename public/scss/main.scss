@@ -1,3 +1,8 @@
+h1, h2, h3, h4, h5, h6{
+  margin: 0;
+  padding: 0;
+}
+
 .mt-1{margin-top: 1em !important}
 .mt-2{margin-top: 2em !important}
 .mt-3{margin-top: 3em !important}
@@ -130,6 +135,10 @@ main{
   align-items: center;
 }
 
+.section-title h4{
+  margin: 0 !important;
+}
+
 .section-title h5{
   margin: 0 !important;
 }
@@ -144,6 +153,7 @@ main{
   position: absolute !important;
   max-width: 350px !important;
   width: 90% !important;
+  z-index: 9999;
 
   .user-panel-header{
     display: flex;
@@ -176,6 +186,54 @@ main{
       display: flex;
       flex-direction: column;
       right: 20px;
+    }
+  }
+}
+
+.notification-panel{
+  right: 15px;
+  top: 60px;
+  position: absolute !important;
+  max-width: 500px !important;
+  width: 90% !important;
+  z-index: 9999;
+  padding: 0 !important;
+
+  .panel-header{
+    margin: 10px 0 10px 0;
+    padding: 0 0 0 10px;
+    font-size: 16px;
+    font-weight: 500;
+    color: rgba($color: #424242, $alpha: 1.0);
+  }
+
+  .panel-body{
+    width: 100%;
+    border-top: rgb(85, 85, 85) solid 1px;
+    margin: 0 !important;
+
+    .notification{
+      display: flex;
+      flex-direction: row;
+      cursor: pointer;
+      padding: 5px;
+      &:hover{
+        background-color: rgba($color: #c2c2c2, $alpha: 1.0);
+      }
+
+      .notification-icon{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 8px;
+        margin-left: 10px;
+        border-radius: 9999px;
+
+        i{
+          font-size: 30px;
+          color: white;
+        }
+      }
     }
   }
 }
@@ -219,7 +277,7 @@ main {
 
 .error-message{
   flex-direction: column;
-  i{
+  i.error_icon{
     font-size: 120px !important;
     margin: 0 20px 0 0;
     color: #e53935;
@@ -229,7 +287,7 @@ main {
 
 hr{
   height: 1px !important;
-  background-color: rgb(211, 211, 211) !important;
+  background-color: rgb(134, 134, 134) !important;
   border: none !important;
 }
 
@@ -239,3 +297,16 @@ hr{
 .tabs .indicator {
   background-color: #1e88e5 !important;
 } /*Color of underline*/
+
+.homecard {
+  padding: 50px 0 50px 0 !important;
+}
+
+.table-badge{
+  margin: 0 10px 0 10px;
+  padding: 2px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}

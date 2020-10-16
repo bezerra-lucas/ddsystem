@@ -8,7 +8,7 @@ export default class BudgetLayouts extends BaseSchema {
       table.increments('id')
 
       table.string('name')
-      table.string('content')
+      table.text('content')
 
       table.integer('user_id')
         .notNullable()

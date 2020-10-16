@@ -3,13 +3,8 @@
 @section('style')
 <style>
 
-  form{
-    margin: 0 auto 0 auto;
-    max-width: 1000px;
-  }
-
   .modal{
-    max-width: 500px;
+    max-width: 600px;
   }
 
 </style>
@@ -17,12 +12,12 @@
 
 @section('main')
 
-  <form action="{{ route('ClientsController.create') }}" method="post" onsubmit="submitForm()" class="mb-5">
-    <h4 class="">Cadastro Clientes</h4>
+  <form action="{{ route('ClientsController.create') }}" method="post" class="container mb-5">
+    <h4 class="mt-1">Cadastro Clientes</h4>
 
     <div class="row mt-3">
       <div class="col s12">
-        <select>
+        <select name="type" id="client-type">
           <option value="pf">Pessoa Física</option>
           <option value="pj">Pessoa Jurídica</option>
         </select>
@@ -31,27 +26,31 @@
 
     <div class="row">
       <div class="input-field col s6">
-        <input type="text" name="client_name">
-        <label for="client_name">Nome</label>
+        <input type="text" name="name">
+        <label for="name">Nome</label>
       </div>
-      <div class="input-field col s6">
-        <input type="text" name="client_cpf" class="cpf">
-        <label for="client_cpf">CPF</label>
+      <div class="input-field col s6" id="cpf-wrapper">
+        <input type="text" name="cpf" class="cpf">
+        <label for="cpf">CPF</label>
+      </div>
+      <div class="input-field col s6 hide" id="cnpj-wrapper">
+        <input type="text" name="cnpj" class="cnpj">
+        <label for="cpf">CNPJ</label>
       </div>
     </div>
     
     <div class="row">
       <div class="col s6">
-        <input class="mb-1" type="date" name="order_date">
+        <input class="mb-1" type="date" name="date">
       </div>
       <div class="col s6">
-        <input class="mb-1" type="time" name="order_time">
+        <input class="mb-1" type="time" name="ime">
       </div>
     </div>
 
     <div class="row">
       <div class="col s12">
-        <select name="order_service">
+        <select name="service">
           <option selected disabled>Serviço</option>
           @each(service in services)
             <option value="{{service.id}}">{{service.name}}</option>
@@ -176,6 +175,12 @@
 
 @section('script')
 <script>
+
+  $('#client-type').on('change', function () {
+    $('#cpf-wrapper').toggleClass('hide');
+    $('#cnpj-wrapper').toggleClass('hide');
+  });
+
   $(document).ready(function(){
     $('select').formSelect();
   });
@@ -218,8 +223,6 @@
         <input type="text" name="address_count" value="${address_count}" />
         <input type="text" name="contact_count" value="${contact_count}" />
       `);
-      
-      return false;
     });
   });
   

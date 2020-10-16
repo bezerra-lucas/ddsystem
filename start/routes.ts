@@ -10,9 +10,13 @@ Route.group(() => {
 }).prefix('login')
 
 Route.group(() => {
-  Route.get('/', async ({ view }) => {
-    return view.render('usuarios/cadastrar')
-  })
+  Route.get('/', 'AuthController.index')
+
+  Route.get('/editar/:id', 'AuthController.edit')
+  Route.get('/apagar/:id', 'AuthController.delete')
+  Route.get('/cadastrar', 'AuthController.create')
+  Route.get('/configuracoes', 'AuthController.config')
+
   Route.post('/cadastrar', 'AuthController.register')
 }).prefix('usuarios').middleware('auth')
 
@@ -27,6 +31,9 @@ Route.group(() => {
 
   Route.get('/cadastrar', 'BudgetLayoutsController.createForm')
   Route.post('/cadastrar', 'BudgetLayoutsController.create')
+
+  Route.get('/editar/:id', 'BudgetLayoutsController.edit')
+  Route.post('/editar', 'BudgetLayoutsController.update')
 
   Route.get('/apagar/:id', 'BudgetLayoutsController.delete')
 }).prefix('modelos').middleware('auth')
@@ -64,3 +71,10 @@ Route.group(() => {
   })
   Route.post('pesquisar', 'ClientsController.search')
 }).prefix('clientes').middleware('auth')
+
+Route.group(() => {
+  Route.get('cadastrar/:id', 'BudgetsController.register')
+  Route.get('editar/:id', 'BudgetsController.edit')
+  Route.get('apagar/:id', 'BudgetsController.delete')
+  Route.post('cadastrar', 'BudgetsController.create')
+}).prefix('orcamentos').middleware('auth')

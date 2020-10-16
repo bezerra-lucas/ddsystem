@@ -2,6 +2,9 @@
 
 @section('main')
 <div class="error-message flex-wrapper justify-content-center align-items-center">
-  <i class="material-icons right">error</i> {{{errorMessage}}}
+  <i class="material-icons right error_icon">error</i> {{{errorMessage}}}
+  @if(backButtonLink)
+    <a class="waves-effect waves-light btn mt-2" href="{{{backButtonLink}}}"><i class="material-icons left">arrow_back</i>Voltar</a>
+  @endif
 </div>
 @endsection

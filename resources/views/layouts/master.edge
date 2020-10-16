@@ -6,11 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
   <!-- CSS -->
-  <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" href="/image/logo.png">
 
-  <title>Osaka 
+  <title>Osaka Dedetizadora
     @!section('title')
   </title>
 
@@ -38,6 +39,16 @@
 
     $('.user-panel-trigger').click(() => {
       $('.user-panel').toggleClass('hide');
+      if(!$('.notification-panel').hasClass('hide')){
+        $('.notification-panel').toggleClass('hide');
+      }
+    })
+
+    $('.notification-panel-trigger').click(() => {
+      $('.notification-panel').toggleClass('hide');
+      if(!$('.user-panel').hasClass('hide')){
+        $('.user-panel').toggleClass('hide');
+      }
     })
 
     $(".dropdown-trigger").dropdown();
@@ -47,9 +58,14 @@
     });
           
     $(document).ready(function(){
+      $('.onlyNumbers').mask('00000000000000000');
       $('input.cep').mask('00000-000');
       $('input.cpf').mask('000.000.000-00');
       $('input.cnpj').mask('00.000.000/0000-00');
+    });
+
+    $(document).ready(function() {
+      M.updateTextFields();
     });
 
   </script>

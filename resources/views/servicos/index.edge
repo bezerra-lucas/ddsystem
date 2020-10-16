@@ -3,10 +3,9 @@
 @section('style')
 <style>
 
-.modal{
-    max-width: 500px;
-  }
-
+  .modal{
+      max-width: 500px;
+    }
 
 </style>
 @endsection
@@ -18,6 +17,7 @@
     <h4>Serviços</h4>
     <a class="btn-floating btn-large waves-effect waves-light blue darken-1 modal-trigger" href="#services_modal"><i class="material-icons">add</i></a>
   </div>
+  <hr>
   @if(services == false)
     Nenhum serviço cadastrado!
   @else
@@ -25,14 +25,14 @@
       <thead>
         <tr>
           <th>Nome</th>
-          <th>Apagar</th>
+          <th>Ações</th>
         </tr>
       </thead>
     <tbody>
       @each(service in services)
         <tr>
-          <td>{{service.name}}</td>
-          <td><a href="/servicos/apagar/{{service.id}}" class="waves-effect waves-light btn-small red darken-1">Apagar</a></td>
+          <td>{{{service.name}}}</td>
+          <td><a class="btn-floating btn-small waves-effect waves-light red modal-trigger"href="/servicos/apagar/{{{service.id}}}"><i class="material-icons">delete</i></a></td>
         </tr>
       @endeach
     </tbody>

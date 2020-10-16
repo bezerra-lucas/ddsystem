@@ -5,6 +5,21 @@ export default class Budget extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
+  @column()
+  public status: number
+
+  @column()
+  public content: String
+
+  @column()
+  public budget_layout_id: number
+
+  @column()
+  public user_id: number
+
+  @column()
+  public client_id: number
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
