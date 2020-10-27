@@ -7,10 +7,9 @@ export default class Contacts extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
 
-      table.string('name', 255)
       table.string('email', 255)
-      table.string('phone', 13)
-      table.string('responsible', 13)
+      table.string('phone', 30)
+      table.string('responsible', 90)
 
       table.integer('client_id')
         .notNullable()

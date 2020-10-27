@@ -6,6 +6,9 @@ export default class Client extends BaseModel {
   public id: number
 
   @column()
+  public is_pf: Boolean
+
+  @column()
   public name: String
 
   @column()

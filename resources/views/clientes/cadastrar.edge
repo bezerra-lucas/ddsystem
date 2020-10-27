@@ -13,6 +13,7 @@
 @section('main')
 
   <form action="{{ route('ClientsController.create') }}" method="post" class="container mb-5">
+
     <h4 class="mt-1">Cadastro Clientes</h4>
 
     <div class="row mt-3">
@@ -28,34 +29,64 @@
       <div class="input-field col s6">
         <input type="text" name="name">
         <label for="name">Nome</label>
+        <span class="helper-text red-text">
+          @if(flashMessages.get('errors.name'))
+            {{ flashMessages.get('errors.name') }}
+          @endif
+        </span>
       </div>
       <div class="input-field col s6" id="cpf-wrapper">
         <input type="text" name="cpf" class="cpf">
         <label for="cpf">CPF</label>
+        <span class="helper-text red-text">
+          @if(flashMessages.get('errors.cpf'))
+            {{ flashMessages.get('errors.cpf') }}
+          @endif
+        </span>
       </div>
       <div class="input-field col s6 hide" id="cnpj-wrapper">
         <input type="text" name="cnpj" class="cnpj">
         <label for="cpf">CNPJ</label>
+        <span class="helper-text red-text">
+          @if(flashMessages.get('errors.cnpj'))
+            {{ flashMessages.get('errors.cnpj') }}
+          @endif
+        </span>
       </div>
     </div>
     
     <div class="row">
       <div class="col s6">
         <input class="mb-1" type="date" name="date">
+        <span class="helper-text red-text">
+          @if(flashMessages.get('errors.date'))
+            {{ flashMessages.get('errors.date') }}
+          @endif
+        </span>
       </div>
       <div class="col s6">
-        <input class="mb-1" type="time" name="ime">
+        <input class="mb-1" type="time" name="time">
+        <span class="helper-text red-text">
+          @if(flashMessages.get('errors.time'))
+            {{ flashMessages.get('errors.time') }}
+          @endif
+        </span>
       </div>
     </div>
 
     <div class="row">
       <div class="col s12">
-        <select name="service">
+        <select name="service" invalid>
           <option selected disabled>Serviço</option>
           @each(service in services)
             <option value="{{service.id}}">{{service.name}}</option>
           @endeach
-        </select>
+        </select>          
+        <span class="helper-text red-text">
+          @if(flashMessages.get('errors.service'))
+            {{ flashMessages.get('errors.service') }}
+          @endif
+        </span>
       </div>
     </div>
 
@@ -117,27 +148,24 @@
     <div class="modal-content">
       <h5>Adicionar Endereço</h4>
       <div class="row">
-        <div class="input-field col s6">
-          <input type="text" id="address_name">
-          <label for="address_name">Nome</label>
-        </div>
-        <div class="input-field col s6">
+        <div class="input-field col s12">
           <input type="text" id="address_cep" class="cep">
           <label for="address_cep">CEP</label>
         </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s6">
-          <input class="mb-1" type="text" id="address_street">
-          <label for="address_street">Rua</label>
-        </div>
-        <div class="input-field col s6">
-          <input class="mb-1" type="text" id="address_number">
-          <label for="address_number">Número</label>
+        <div class="row">
+          <div class="input-field col s12">
+            <input class="mb-1" type="text" id="address_street">
+            <label for="address_street">Rua</label>
+          </div>
+          <div class="input-field col s12">
+            <input class="mb-1" type="text" id="address_number">
+            <label for="address_number">Número</label>
+          </div>
         </div>
       </div>
     </div>
     <div class="modal-footer">
+      <button class="btn modal-close waves-effect waves-light mb-2 mr-1 grey">Cancelar</button>
       <button id="submitAddress" class="btn waves-effect waves-light mb-2 mr-1" type="submit" name="action">Salvar</button>
     </div>
   </div>
@@ -146,27 +174,22 @@
     <div class="modal-content">
       <h5>Adicionar Contato</h4>
       <div class="row">
-        <div class="input-field col s6">
-          <input type="text" id="contact_name">
-          <label for="contact_name">Nome</label>
-        </div>
-        <div class="input-field col s6">
+        <div class="input-field col s12">
           <input type="email" id="contact_email">
           <label for="contact_email">Email</label>
         </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s6">
+        <div class="input-field col s12">
           <input class="mb-1" type="text" id="contact_phone">
           <label for="contact_phone">Telefone</label>
         </div>
-        <div class="input-field col s6">
+        <div class="input-field col s12">
           <input class="mb-1" type="text" id="contact_responsible">
           <label for="contact_responsible">Responsável</label>
         </div>
       </div>
     </div>
     <div class="modal-footer">
+      <button class="btn modal-close waves-effect waves-light mb-2 mr-1 grey">Cancelar</button>
       <button id="submitContact" class="btn waves-effect waves-light mb-2 mr-1" type="submit" name="action">Salvar</button>
     </div>
   </div>
@@ -199,7 +222,7 @@
           } else {
             addresses[i][ii] = $(this).text();
             $('form').append(`
-              <input type="text" name="${$(this).attr("class") + i}" value="${addresses[i][ii]}" />
+              <input type="hidden" name="${$(this).attr("class") + i}" value="${addresses[i][ii]}" />
             `);
           }
         }); 
@@ -213,15 +236,15 @@
           } else {
             contacts[i][ii] = $(this).text();
             $('form').append(`
-              <input type="text" name="${$(this).attr("class") + i}" value="${contacts[i][ii]}" />
+              <input type="hidden" name="${$(this).attr("class") + i}" value="${contacts[i][ii]}" />
             `);
           }
         }); 
       });
 
       $('form').append(`
-        <input type="text" name="address_count" value="${address_count}" />
-        <input type="text" name="contact_count" value="${contact_count}" />
+        <input type="hidden" name="address_count" value="${address_count}" />
+        <input type="hidden" name="contact_count" value="${contact_count}" />
       `);
     });
   });
@@ -236,15 +259,13 @@
   $('#submitAddress').on('click', () => {
     $('#address_tbody').append(`
       <tr>
-        <td class="address_name">${$('#address_name').val()}</td>
         <td class="address_cep">${$('#address_cep').val()}</td>
         <td class="address_street">${$('#address_street').val()}</td>
         <td class="address_number">${$('#address_number').val()}</td>
-        <td class="ignore"><buttontype="button" class="remove waves-effect waves-light btn-small red darken-1 address">Apagar</button></td>
+        <td class="ignore"><button type="button" class="remove waves-effect waves-light btn-small red darken-1 address">Apagar</button></td>
       </tr> 
     `);
 
-    $('#address_name').val('');
     $('#address_cep').val('');
     $('#address_street').val('');
     $('#address_number').val('');
@@ -259,15 +280,13 @@
   $('#submitContact').on('click', () => {
     $('#contact_tbody').append(`
       <tr>
-        <td class="contact_name">${$('#contact_name').val()}</td>
         <td class="contact_email">${$('#contact_email').val()}</td>
         <td class="contact_phone">${$('#contact_phone').val()}</td>
         <td class="contact_responsible">${$('#contact_responsible').val()}</td>
-        <td class="ignore"><buttontype="button" class="remove waves-effect waves-light btn-small red darken-1 contact">Apagar</button></td>
+        <td class="ignore"><button type="button" class="remove waves-effect waves-light btn-small red darken-1 contact">Apagar</button></td>
       </tr> 
     `);
 
-      $('#contact_name').val('');
       $('#contact_email').val('');
       $('#contact_phone').val('');
       $('#contact_responsible').val('');

@@ -1,5 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { schema, rules } from '@ioc:Adonis/Core/Validator'
+import Mail from '@ioc:Adonis/Addons/Mail'
 
 import Client from 'App/Models/Client'
 import Database from '@ioc:Adonis/Lucid/Database'
@@ -73,5 +73,19 @@ export default class BudgetsController {
     return view.render('orcamentos/editar', {
       budget: budget,
     })
+  }
+
+  public async send ({ response } : HttpContextContract){
+    await Mail.send((message) => {
+      message
+        .from('osakadedetizadora2020@gmail.com')
+        .to('1lcs.bzrr@gmail.com')
+        .subject('Welcome Onboard!')
+        .htmlView('emails/welcome', {
+          user: { fullName: 'Some Name' },
+          url: 'https://your-app.com/verification-url',
+        })
+    })
+    return response.send('ok')
   }
 }

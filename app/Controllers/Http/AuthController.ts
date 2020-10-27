@@ -1,11 +1,20 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 import User from 'App/Models/User'
+import Role from 'App/Models/Role'
+
+import Database from '@ioc:Adonis/Lucid/Database'
 
 export default class AuthController {
   public async index ({ view }){
-    const users = await User.all()
-    return view.render('usuarios.index', {
+    const users = await Database.rawQuery(`
+      SELECT users.name, users.email, users.id, users.role_id, roles.name as roles_name
+      FROM users
+      INNER JOIN roles
+      ON users.role_id = roles.id
+    `)
+
+    return view.render('usuarios/index', {
       users: users,
     })
   }
@@ -15,15 +24,15 @@ export default class AuthController {
     try{
       await User.create({
         name: data.name,
-        permission: 0,
         email: data.email,
         password: data.password,
+        role_id: data.role_id,
       })
     } catch (err){
       return response.send(err)
     }
 
-    return response.redirect('back')
+    return response.redirect('/usuarios')
   }
 
   public async login ({ auth, request, response }: HttpContextContract) {
@@ -60,7 +69,10 @@ export default class AuthController {
   }
 
   public async create ({ view } : HttpContextContract){
-    return view.render('usuarios/cadastrar')
+    const roles = await Role.all()
+    return view.render('usuarios/cadastrar', {
+      roles: roles,
+    })
   }
 
   public async config ({ view } : HttpContextContract){

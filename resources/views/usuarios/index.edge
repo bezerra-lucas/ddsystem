@@ -11,26 +11,27 @@
 @endsection
 
 @section('main')
+
   <div class="container">
     <div class="section-title mt-1 mb-1">
       <h4>Usuários</h4>
       <a class="btn-floating btn-large waves-effect waves-light blue darken-1 modal-trigger" href="/usuarios/cadastrar"><i class="material-icons">add</i></a>
     </div>
     <hr>
-    @if(users)
-      <table class="mt-2">
+    @if(users.rows)
+      <table class="mt-1">
         <thead>
           <tr>
-            <th>ID</th>
+            <th>Cargo</th>
             <th>Nome</th>
             <th>Email</th>
             <th>Ações</th>
           </tr>
         </thead>
         <tbody>
-        @each(user in users)
+        @each(user in users.rows)
           <tr>
-            <td>{{{user.id}}}</td>
+            <td>{{{user.roles_name}}}</td>
             <td>{{{user.name}}}</td>
             <td>{{{user.email}}}</td>
             <td>
@@ -44,7 +45,7 @@
     @endif
   </div>
 
-  @each(user in users)
+  @each(user in users.rows)
     <div id="deleteModal{{{user.id}}}" class="modal">
       <div class="modal-content">
         <h4>Confirmação</h4>

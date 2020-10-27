@@ -18,6 +18,16 @@ Route.group(() => {
   Route.get('/configuracoes', 'AuthController.config')
 
   Route.post('/cadastrar', 'AuthController.register')
+
+  Route.get('/cargos', 'RolesController.index')
+
+  Route.get('/cargos/cadastrar', 'RolesController.register')
+  Route.post('/cargos/cadastrar', 'RolesController.create')
+
+  Route.get('/cargos/apagar/:id', 'RolesController.delete')
+
+  Route.get('/cargos/editar/:id', 'RolesController.edit')
+  Route.post('/cargos/editar', 'RolesController.update')
 }).prefix('usuarios').middleware('auth')
 
 Route.group(() => {
@@ -76,5 +86,6 @@ Route.group(() => {
   Route.get('cadastrar/:id', 'BudgetsController.register')
   Route.get('editar/:id', 'BudgetsController.edit')
   Route.get('apagar/:id', 'BudgetsController.delete')
+  Route.get('enviar', 'BudgetsController.send')
   Route.post('cadastrar', 'BudgetsController.create')
 }).prefix('orcamentos').middleware('auth')

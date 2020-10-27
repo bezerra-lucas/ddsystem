@@ -24,7 +24,8 @@
 
   <div class="row">
     <div class="input-field col s12 m6 mt-4">
-      <input value="{{{client.id}}}" name="client_id" type="text">
+      <input value="{{{client.id}}}" name="client_id" type="hidden">
+      <input value="{{{client.id}}}" type="text" disabled>
       <label for="client_id">ID do Cliente</label>
     </div>
     <div class="input-field col s12 m6 mt-4">
@@ -39,6 +40,7 @@
     <div class="input-field s12 mb-2 col">
       <select id="selectLayout" class="">
         <option value="" disabled selected>Escolha um Modelo</option>
+        <option value="empty">Nenhum</option>
         @each(layout in layouts)
           <option value="{{{layout.id}}}">{{{layout.name}}}</option>
         @endeach
@@ -71,9 +73,15 @@
       @each(layout in layouts)
         case '{{{layout.id}}}':
           $('#budget_layout_id').val('{{{layout.id}}}')
+          $('.ql-editor').empty();
           $('.ql-editor').append(`{{{layout.content}}}`);
           break;
       @endeach
+      case 'empty':
+        $('#budget_layout_id').val('0')
+        $('.ql-editor').empty();
+        $('.ql-editor').append(``);
+        break;
     }
   });
 

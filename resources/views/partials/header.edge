@@ -1,6 +1,11 @@
 <ul id="dropdown1" class="dropdown-content">
-  <li><a href="/clientes/cadastrar">Cadastrar</a></li>
-  <li><a href="/clientes/pesquisar">Pesquisar</a></li>
+  <li><a href="/clientes/cadastrar">Cadastrar Cliente</a></li>
+  <li><a href="/clientes/pesquisar">Pesquisar Cliente</a></li>
+</ul>
+
+<ul id="users" class="dropdown-content">
+  <li><a href="/usuarios">Gerenciar Usuários</a></li>
+  <li><a href="/usuarios/cargos">Gerenciar Cargos</a></li>
 </ul>
 
 <nav class="light-blue darken-4">
@@ -9,7 +14,7 @@
       <li><a href="/"><span class="page-title">Osaka Dedetizadora</span></a></li>
       <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Clientes<i class="material-icons right dropdown-icon">arrow_drop_down</i></a></li>
       <li><a href="/ordens/agenda">Agenda</a></li>
-      <li><a href="/usuarios">Usuários</a></li>
+      <li><a class="dropdown-trigger" href="#!" data-target="users">Usuários<i class="material-icons right dropdown-icon">arrow_drop_down</i></a></li>
       <li><a href="/servicos">Serviços</a></li>
       <li><a href="/modelos">Modelos de Orçamento</a></li>
       <li><a href="/rastreamento">Rastreador GPS</a></li>
@@ -34,8 +39,8 @@
       <i class="material-icons">person</i>
     </div>
     <div class="user-identification">
-      <span class="user-name">{{{ auth.user.name }}}</span>
-      <span class="user-email">{{{ auth.user.email }}}</span>
+      <span class="user-name">{{{auth.user.name}}}</span>
+      {{{auth.user.email}}}
     </div>
     <div class="user-actions">
       <a href="/usuarios/configuracoes"><i class="material-icons">settings</i></a>

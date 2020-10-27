@@ -1,4 +1,4 @@
-import { schema, rules } from '@ioc:Adonis/Core/Validator'
+import { schema } from '@ioc:Adonis/Core/Validator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 import Service from 'App/Models/Service'
@@ -28,79 +28,73 @@ export default class ClientController {
   public async create ({ request, response, auth }:HttpContextContract){
     const validated = await request.validate({
       schema: schema.create({
-        client: schema.object().members({
-          type: schema.string(),
-          name: schema.string(),
-          cpf: schema.string.optional(),
-          cnpj: schema.string.optional(),
-        }),
-        order: schema.object().members({
-          date: schema.string(),
-          time: schema.string(),
-          service: schema.number(),
-        }),
+        type: schema.string(),
+        name: schema.string(),
+        cpf: schema.string.optional(),
+        cnpj: schema.string.optional(),
+        date: schema.string(),
+        time: schema.string(),
+        service: schema.number(),
         address_count: schema.number(),
         contact_count: schema.number(),
       }),
       messages: {
-        'test': '',
+        required: 'Por favor preencha este campo',
       },
     })
 
-    try{
-      var client : Client
+    console.log(validated)
 
-      if(validated.client.type === '0'){
-        client = await Client.create({
-          name: validated.client.name,
-          cpf: onlyAlpha(validated.client.cpf),
-          user_id: auth.user?.id,
-        })
-      } else {
-        client = await Client.create({
-          name: validated.client.name,
-          cnpj: onlyAlpha(validated.client.cnpj),
-          user_id: auth.user?.id,
-        })
-      }
+    var client : Client
 
-      await Order.create({
-        type: 0,
-        date: validated.order.date.replace(/\D/g, ''),
-        time: validated.order.time.replace(/\D/g, ''),
-        service_id: validated.order.service,
+    if(validated.type === '0'){
+      client = await Client.create({
+        is_pf: true,
+        name: validated.name,
+        cpf: onlyAlpha(validated.cpf),
+        user_id: auth.user?.id,
+      })
+    } else {
+      client = await Client.create({
+        is_pf: false,
+        name: validated.name,
+        cnpj: onlyAlpha(validated.cnpj),
+        user_id: auth.user?.id,
+      })
+    }
+
+    await Order.create({
+      type: 0,
+      date: validated.date.replace(/\D/g, ''),
+      time: validated.time.replace(/\D/g, ''),
+      service_id: validated.service,
+      client_id: client.id,
+      user_id: auth.user?.id,
+    })
+
+    var currentAddresses = 0
+    var currentContacts = 0
+
+    while(currentContacts <= validated.contact_count){
+      await Contact.create({
+        email: request.input('contact_email' + currentContacts),
+        phone: request.input('contact_phone' + currentContacts).replace(/\D/g, ''),
+        responsible: request.input('contact_responsible' + currentContacts),
         client_id: client.id,
         user_id: auth.user?.id,
       })
+      currentContacts++
+    }
 
-      var i = 0
-      var ii = 0
-
-      while(i <= validated.address_count){
-        await Address.create({
-          name: request.input('address_name' + i),
-          street: request.input('address_street' + i),
-          number: request.input('address_number' + i),
-          cep: request.input('address_cep' + i).replace(/\D/g, ''),
-          client_id: client.id,
-          user_id: auth.user?.id,
-        })
-        i++
-      }
-
-      while(ii <= validated.contact_count){
-        await Contact.create({
-          name: request.input('contact_name' + ii),
-          email: request.input('contact_email' + ii),
-          phone: request.input('contact_phone' + ii).replace(/\D/g, ''),
-          responsible: request.input('contact_responsible' + ii),
-          client_id: client.id,
-          user_id: auth.user?.id,
-        })
-        ii++
-      }
-    } catch (err) {
-      return response.send(err)
+    while(currentAddresses <= validated.address_count){
+      await Address.create({
+        street: request.input('address_street' + currentAddresses),
+        number: request.input('address_number' + currentAddresses),
+        cep: request.input('address_cep' + currentAddresses).replace(/\D/g, ''),
+        client_id: client.id,
+        user_id: auth.user?.id,
+      })
+      currentAddresses++
     }
   }
 
