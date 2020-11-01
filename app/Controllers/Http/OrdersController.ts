@@ -8,7 +8,7 @@ import Database from '@ioc:Adonis/Lucid/Database'
 export default class OrdersController {
   public async schedule ({ view } : HttpContextContract){
     const orders = await Database.rawQuery(`
-      SELECT clients.name as title, clients.id, orders.date, orders.time, orders.type
+      SELECT clients.name as title, clients.id as client_id, orders.date, orders.time, orders.type, orders.id
       FROM orders
       INNER JOIN clients
       ON orders.client_id = clients.id

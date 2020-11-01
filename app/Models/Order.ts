@@ -23,6 +23,9 @@ export default class Order extends BaseModel {
   @column()
   public user_id: Number
 
+  @column()
+  public budget_id: Number
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

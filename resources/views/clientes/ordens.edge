@@ -18,10 +18,39 @@
 
 <ul class="tabs tabs-fixed-width tab-demo z-depth-1">
   <li class="tab"><a target="_self" href="/clientes/painel/{{client.id}}/informacoes">Informações</a></li>
-  <li class="tab"><a target="_self" href="/clientes/painel/{{client.id}}/orcamentos">Orçamentos</a></li>
   <li class="tab"><a target="_self" href="/clientes/painel/{{client.id}}/ordens" class="active">Ordens</a></li>
   <li class="tab"><a target="_self" href="/clientes/painel/{{client.id}}/historico">Histórico</a></li>
 </ul>
+<div class="card flex-wrapper justify-content-center pb-4 pt-2">
+  <div class="container">  
+    <div class="section-title mt-1 mb-1">
+      <h4>Ordens</h4>
+      <a class="btn-floating btn-large waves-effect waves-light blue darken-1 modal-trigger" href="#services_modal"><i class="material-icons">add</i></a>
+    </div>
+    <hr>
+    @if(!orders)
+      Nenhuma ordem cadastrada!
+    @else
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+      <tbody>
+        @each(order in orders)
+          <tr>
+            <td>{{{order.name}}}</td>
+            <td><a class="btn-floating btn-small waves-effect waves-light red modal-trigger"href="/servicos/apagar/{{{service.id}}}"><i class="material-icons">delete</i></a></td>
+          </tr>
+        @endeach
+      </tbody>
+    </table>
+    @endif
+  </div>
+</div>
+</div>
 
 
 @endsection

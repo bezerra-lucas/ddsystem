@@ -72,6 +72,9 @@ Route.group(() => {
   Route.get('painel/:id', 'ClientsController.dashboard')
 
   Route.get('painel/:id/informacoes', 'ClientsController.informations')
+  Route.get('painel/:id/informacoes/editar', 'ClientsController.edit')
+  Route.post('/informacoes/editar', 'ClientsController.update')
+
   Route.get('painel/:id/orcamentos', 'ClientsController.budgets')
   Route.get('painel/:id/ordens', 'ClientsController.orders')
   Route.get('painel/:id/historico', 'ClientsController.historic')
@@ -86,6 +89,6 @@ Route.group(() => {
   Route.get('cadastrar/:id', 'BudgetsController.register')
   Route.get('editar/:id', 'BudgetsController.edit')
   Route.get('apagar/:id', 'BudgetsController.delete')
-  Route.get('enviar', 'BudgetsController.send')
+  Route.get('enviar/:id', 'BudgetsController.send')
   Route.post('cadastrar', 'BudgetsController.create')
 }).prefix('orcamentos').middleware('auth')

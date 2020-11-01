@@ -75,7 +75,8 @@ export default class ClientController {
     var currentAddresses = 0
     var currentContacts = 0
 
-    while(currentContacts <= validated.contact_count){
+    while(currentContacts <= validated.contact_count - 1){
+      console.log(currentContacts)
       await Contact.create({
         email: request.input('contact_email' + currentContacts),
         phone: request.input('contact_phone' + currentContacts).replace(/\D/g, ''),
@@ -86,7 +87,7 @@ export default class ClientController {
       currentContacts++
     }
 
-    while(currentAddresses <= validated.address_count){
+    while(currentAddresses <= validated.address_count - 1){
       await Address.create({
         street: request.input('address_street' + currentAddresses),
         number: request.input('address_number' + currentAddresses),
@@ -95,6 +96,18 @@ export default class ClientController {
         user_id: auth.user?.id,
       })
       currentAddresses++
+    }
+  }
+
+  public async update ({ view, request, response }: HttpContextContract){
+    const data = request.all()
+    const client = await Client.find(data.client_id)
+    if(client){
+      return response.redirect(`/clientes/painel/${client.id}/informacoes`)
+    } else {
+      return view.render('erros/nao_encontrado', {
+        errorMessage: 'O cliente requisitado não foi encontrado na base de dados!',
+      })
     }
   }
 
@@ -110,9 +123,16 @@ export default class ClientController {
   }
 
   public async informations ({ view, params }: HttpContextContract){
-    const client = await Client.find(params.id)
+    const clients = await Database.rawQuery(`
+      SELECT clients.*, addresses.id as addresses_id, addresses.cep, addresses.street, addresses.number
+      FROM clients 
+        LEFT JOIN addresses
+        ON clients.id = addresses.client_id
+      WHERE clients.id = ${params.id}
+    `)
+
     return view.render('clientes/informacoes', {
-      client: client,
+      clients: clients.rows,
     })
   }
 
@@ -131,6 +151,13 @@ export default class ClientController {
     return view.render('clientes/orcamentos', {
       client: client,
       budgets: budgets,
+    })
+  }
+
+  public async edit ({ view, params }: HttpContextContract){
+    const client = await Client.find(params.id)
+    return view.render('clientes/editar', {
+      client: client,
     })
   }
 

@@ -44,8 +44,21 @@ const mailConfig: MailConfig = {
     */
     smtp: {
       driver: 'smtp',
+      secure: false,
+      pool: true,
       host: Env.get('SMTP_HOST') as string,
       port: Env.get('SMTP_PORT') as string,
+      auth: {
+        type: 'OAuth2',
+        clientId: Env.get('SMTP_CLIENT_ID') as string,
+        clientSecret: Env.get('SMTP_SECRET') as string,
+        refreshToken: Env.get('SMTP_REFRESH_TOKEN') as string,
+        accessToken: Env.get('SMTP_ACCESS_TOKEN') as string,
+        user: Env.get('SMTP_USERNAME') as string,
+      },
+      maxConnections: 5,
+      maxMessages: 100,
+      rateLimit: 10,
     },
 
     /*

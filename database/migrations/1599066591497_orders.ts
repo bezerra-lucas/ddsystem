@@ -22,6 +22,11 @@ export default class Orders extends BaseSchema {
         .references('id')
         .inTable('clients')
 
+      table.integer('budget_id')
+        .notNullable()
+        .references('id')
+        .inTable('budgets')
+
       table.integer('user_id')
         .notNullable()
         .references('id')

@@ -9,7 +9,7 @@ export default class Budget extends BaseModel {
   public status: number
 
   @column()
-  public content: String
+  public content: string
 
   @column()
   public budget_layout_id: number
