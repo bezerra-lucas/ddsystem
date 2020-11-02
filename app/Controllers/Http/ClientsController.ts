@@ -6,6 +6,7 @@ import Client from 'App/Models/Client'
 import Order from 'App/Models/Order'
 import Address from 'App/Models/Address'
 import Contact from 'App/Models/Contact'
+import Budget from 'App/Models/Budget'
 
 import Database from '@ioc:Adonis/Lucid/Database'
 
@@ -43,8 +44,6 @@ export default class ClientController {
       },
     })
 
-    console.log(validated)
-
     var client : Client
 
     if(validated.type === '0'){
@@ -63,7 +62,7 @@ export default class ClientController {
       })
     }
 
-    await Order.create({
+    const order = await Order.create({
       type: 0,
       date: validated.date.replace(/\D/g, ''),
       time: validated.time.replace(/\D/g, ''),
@@ -72,11 +71,21 @@ export default class ClientController {
       user_id: auth.user?.id,
     })
 
+    const budget = await Budget.create({
+      status: 0,
+      content: '  ',
+      order_id: order.id,
+      client_id: client.id,
+      user_id: auth.user?.id,
+    })
+
+    order.budget_id = budget.id
+    await order.save()
+
     var currentAddresses = 0
     var currentContacts = 0
 
     while(currentContacts <= validated.contact_count - 1){
-      console.log(currentContacts)
       await Contact.create({
         email: request.input('contact_email' + currentContacts),
         phone: request.input('contact_phone' + currentContacts).replace(/\D/g, ''),
@@ -97,6 +106,8 @@ export default class ClientController {
       })
       currentAddresses++
     }
+
+    return response.redirect('/')
   }
 
   public async update ({ view, request, response }: HttpContextContract){
@@ -141,11 +152,11 @@ export default class ClientController {
 
     const budgets = await Database.rawQuery(`
       SELECT budgets.id, budgets.status, budgets.created_at, budgets.budget_layout_id, users.id as user_id, users.name as user_name, budget_layouts.name as budget_layouts_name
-      FROM budgets
+        FROM budgets
       INNER JOIN users
-      ON budgets.user_id = users.id
+        ON budgets.user_id = users.id
       INNER JOIN budget_layouts
-      ON budget_layout_id = budget_layouts.id
+        ON budget_layout_id = budget_layouts.id
     `)
 
     return view.render('clientes/orcamentos', {
@@ -163,8 +174,39 @@ export default class ClientController {
 
   public async orders ({ view, params }: HttpContextContract){
     const client = await Client.find(params.id)
+    const orders = await Database.rawQuery(`
+      SELECT orders.*, users.name
+      FROM orders
+      INNER JOIN users
+        ON orders.user_id = users.id
+      WHERE orders.client_id = ${client?.id}
+    `)
+
+    orders.rows.map(
+      function (order){
+        order.dateTime =
+        order.date.charAt(6) +
+        order.date.charAt(7) +
+        '/' +
+        order.date.charAt(4) +
+        order.date.charAt(5) +
+        '/' +
+        order.date.charAt(0) +
+        order.date.charAt(1) +
+        order.date.charAt(2) +
+        order.date.charAt(3) +
+        ' - ' +
+        order.time.charAt(0) +
+        order.time.charAt(1) +
+        ':' +
+        order.time.charAt(2) +
+        order.time.charAt(3)
+      }
+    )
+
     return view.render('clientes/ordens', {
       client: client,
+      orders: orders.rows,
     })
   }
 
@@ -178,7 +220,6 @@ export default class ClientController {
   public async search ({ request, view, response }:HttpContextContract){
     var results : Array<[]> | null = []
     var client : null | Client | undefined
-    var message : String | undefined
 
     if(request.input('search_column') === 'id') {
       client = await Client.find(request.input('search_term'))
@@ -199,7 +240,6 @@ export default class ClientController {
       return view.render('clientes/pesquisar', {
         results: results,
         client: client,
-        message: message,
       })
     }
   }

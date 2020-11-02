@@ -6,9 +6,6 @@ export default class Address extends BaseModel {
   public id: number
 
   @column()
-  public name: string
-
-  @column()
   public cep: string
 
   @column()

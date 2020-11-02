@@ -34,15 +34,36 @@
       <table>
         <thead>
           <tr>
-            <th>Nome</th>
+            <th>Tipo</th>
+            <th>Data</th>
             <th>Ações</th>
           </tr>
         </thead>
       <tbody>
         @each(order in orders)
           <tr>
-            <td>{{{order.name}}}</td>
-            <td><a class="btn-floating btn-small waves-effect waves-light red modal-trigger"href="/servicos/apagar/{{{service.id}}}"><i class="material-icons">delete</i></a></td>
+            <td>
+              @if(order.type == 0)
+                <div class="table-badge orange darken-3">
+                  Visita
+                </div>
+              @endif
+              @if(order.type == 1)
+                <div class="table-badge orange darken-3">
+                  Aplicação
+                </div>
+              @endif
+              @if(order.type == 2)
+                <div class="table-badge orange darken-3">
+                  Reforço
+                </div>
+              @endif
+            </td>
+            <td>{{{order.dateTime}}}</td>
+            <td>
+              <a class="btn-floating btn-small waves-effect waves-light teal modal-trigger" href="/orcamentos/editar/{{{order.budget_id}}}"><i class="material-icons">receipt_long</i></a>
+              <a class="btn-floating btn-small waves-effect waves-light red modal-trigger" href="#deleteModal{{{order.id}}}"><i class="material-icons">delete</i></a>
+            </td>
           </tr>
         @endeach
       </tbody>

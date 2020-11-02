@@ -15,6 +15,9 @@ export default class Budget extends BaseModel {
   public budget_layout_id: number
 
   @column()
+  public order_id: number
+
+  @column()
   public user_id: number
 
   @column()

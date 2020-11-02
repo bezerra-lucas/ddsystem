@@ -2,7 +2,6 @@ import { rules, schema } from '@ioc:Adonis/Core/Validator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 import BudgetLayout from 'App/Models/BudgetLayout'
-import Budget from 'App/Models/Budget'
 
 export default class BudgetLayoutsController {
   public async index ({ view } : HttpContextContract){

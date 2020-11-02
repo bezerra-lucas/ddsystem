@@ -1,6 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Mail from '@ioc:Adonis/Addons/Mail'
-import Application from '@ioc:Adonis/Core/Application'
 
 import Client from 'App/Models/Client'
 import Database from '@ioc:Adonis/Lucid/Database'
@@ -84,9 +83,9 @@ export default class BudgetsController {
     })
   }
 
-  public async sendOptions ({ response, params, view } : HttpContextContract){
-    const budget = await Budget.find(params.id)
-  }
+  // public async sendOptions ({ response, params, view } : HttpContextContract){
+  //   const budget = await Budget.find(params.id)
+  // }
 
   public async send ({ response, params, view } : HttpContextContract){
     const budget = await Budget.find(params.id)

@@ -1,31 +1,29 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
-export default class Orders extends BaseSchema {
-  protected tableName = 'orders'
+export default class Budgets extends BaseSchema {
+  protected tableName = 'budgets'
 
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
 
-      table.integer('type', 1)
+      table.integer('status')
 
-      table.string('date', 8)
-      table.string('time', 6)
+      table.text('content')
 
-      table.integer('service_id')
-        .notNullable()
+      table.integer('order_id')
         .references('id')
-        .inTable('services')
+        .inTable('orders')
+        .notNullable()
+
+      table.integer('budget_layout_id')
+        .references('id')
+        .inTable('budget_layouts')
 
       table.integer('client_id')
         .notNullable()
         .references('id')
         .inTable('clients')
-
-      table.integer('budget_id')
-        .notNullable()
-        .references('id')
-        .inTable('budgets')
 
       table.integer('user_id')
         .notNullable()

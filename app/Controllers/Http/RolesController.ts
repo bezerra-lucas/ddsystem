@@ -1,7 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 import Role from 'App/Models/Role'
-import { ViewRoot } from 'public/fullcalendar/common/main'
 
 export default class RolesController {
   public async index ({ view }:HttpContextContract){
