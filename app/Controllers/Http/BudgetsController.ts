@@ -4,6 +4,7 @@ import Mail from '@ioc:Adonis/Addons/Mail'
 import Client from 'App/Models/Client'
 import Database from '@ioc:Adonis/Lucid/Database'
 import Budget from 'App/Models/Budget'
+import Order from 'App/Models/Order'
 
 var fs = require('fs')
 var pdf = require('html-pdf')
@@ -78,17 +79,41 @@ export default class BudgetsController {
 
   public async edit ({ view, params } : HttpContextContract){
     const budget = await Budget.find(params.id)
+    const client = await Client.find(budget?.client_id)
+    const layouts = await Database.rawQuery(`
+      SELECT * FROM budget_layouts
+    `)
+
     return view.render('orcamentos/editar', {
       budget: budget,
+      client: client,
+      layouts: layouts.rows,
     })
+  }
+
+  public async update ({ response, request } : HttpContextContract){
+    const data = request.all()
+    const budget = await Budget.find(data.budget_id)
+    const client = await Client.find(budget?.client_id)
+
+    if(budget){
+      budget.content = data.budget_content
+      budget.budget_layout_id = data.content
+      await budget.save()
+    }
+
+    return response.redirect(`/clientes/painel/${client?.id}/ordens`)
   }
 
   // public async sendOptions ({ response, params, view } : HttpContextContract){
   //   const budget = await Budget.find(params.id)
   // }
 
-  public async send ({ response, params, view } : HttpContextContract){
-    const budget = await Budget.find(params.id)
+  public async send ({ response, view, request } : HttpContextContract){
+    const order = await Order.find(request.input('order_id'))
+    const budget = await Budget.findBy('order_id', order?.budget_id)
+
+    const email = await request.input('email')
 
     if(budget){
       var filename = generateRandomString()
@@ -124,7 +149,7 @@ export default class BudgetsController {
         await Mail.send((message) => {
           message
             .from('1lcs.bzrr@gmail.com')
-            .to('1lcs.bzrr@gmail.com')
+            .to(email)
             .subject('Orçamento - Osaka Dedetizadora')
             .htmlView('emails/orcamento', {
               budget_content: budget.content,

@@ -7,6 +7,7 @@ import Order from 'App/Models/Order'
 import Address from 'App/Models/Address'
 import Contact from 'App/Models/Contact'
 import Budget from 'App/Models/Budget'
+import Historic from 'App/Models/Historic'
 
 import Database from '@ioc:Adonis/Lucid/Database'
 
@@ -107,6 +108,20 @@ export default class ClientController {
       currentAddresses++
     }
 
+    var today : Date | string = new Date()
+    var dd = String(today.getDate()).padStart(2, '0')
+    var mm = String(today.getMonth() + 1).padStart(2, '0') //January is 0!
+    var yyyy = today.getFullYear()
+
+    today = yyyy + '-' + mm + '-' + dd
+
+    await Historic.create({
+      date: today,
+      content: 'Cliente criado',
+      client_id: client.id,
+      user_id: auth.user?.id,
+    })
+
     return response.redirect('/')
   }
 
@@ -134,16 +149,23 @@ export default class ClientController {
   }
 
   public async informations ({ view, params }: HttpContextContract){
-    const clients = await Database.rawQuery(`
-      SELECT clients.*, addresses.id as addresses_id, addresses.cep, addresses.street, addresses.number
-      FROM clients 
-        LEFT JOIN addresses
-        ON clients.id = addresses.client_id
-      WHERE clients.id = ${params.id}
+    const client = await Client.find(params.id)
+    const addresses = await Database.rawQuery(`
+      SELECT *
+      FROM addresses
+      WHERE client_id = ${client?.id}
+    `)
+
+    const contacts = await Database.rawQuery(`
+      SELECT *
+      FROM contacts
+      WHERE client_id = ${client?.id}
     `)
 
     return view.render('clientes/informacoes', {
-      clients: clients.rows,
+      client: client,
+      addresses: addresses.rows,
+      contacts: contacts.rows,
     })
   }
 
@@ -181,6 +203,11 @@ export default class ClientController {
         ON orders.user_id = users.id
       WHERE orders.client_id = ${client?.id}
     `)
+    const contacts = await Database.rawQuery(`
+      SELECT *
+      FROM contacts
+      WHERE client_id = ${client?.id}
+    `)
 
     orders.rows.map(
       function (order){
@@ -207,13 +234,21 @@ export default class ClientController {
     return view.render('clientes/ordens', {
       client: client,
       orders: orders.rows,
+      contacts: contacts.rows,
     })
   }
 
   public async historic ({ view, params }: HttpContextContract){
     const client = await Client.find(params.id)
+    const historics = await Database.rawQuery(`
+      SELECT *
+      FROM historics
+      WHERE client_id = ${client?.id}
+    `)
+
     return view.render('clientes/historico', {
       client: client,
+      historics: historics.rows,
     })
   }
 

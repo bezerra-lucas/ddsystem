@@ -87,8 +87,15 @@ Route.group(() => {
 
 Route.group(() => {
   Route.get('cadastrar/:id', 'BudgetsController.register')
+
   Route.get('editar/:id', 'BudgetsController.edit')
+  Route.post('editar', 'BudgetsController.update')
+
   Route.get('apagar/:id', 'BudgetsController.delete')
-  Route.get('enviar/:id', 'BudgetsController.send')
+  Route.post('enviar', 'BudgetsController.send')
   Route.post('cadastrar', 'BudgetsController.create')
 }).prefix('orcamentos').middleware('auth')
+
+Route.group(() => {
+  Route.post('cadastrar', 'HistoricsController.create')
+}).prefix('historico').middleware('auth')

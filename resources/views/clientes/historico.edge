@@ -4,8 +4,12 @@
 
 <style>
 
-  form.card{
+  form  .card{
     padding: 20px;
+  }
+
+  .modal{
+    max-width: 600px;
   }
 
 </style>
@@ -22,6 +26,48 @@
   <li class="tab"><a target="_self" href="/clientes/painel/{{client.id}}/historico" class="active">Histórico</a></li>
 </ul>
 
+<div class="card flex-wrapper justify-content-center pb-4 pt-2">
+  <div class="container">
+    <div class="section-title mt-1 mb-1">
+      <h4>Histórico</h4>
+      <a class="btn-floating btn-large waves-effect waves-light blue darken-1 modal-trigger" href="#createHistoric"><i class="material-icons">add</i></a>
+    </div>
+    <hr>
+    <table>
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Conteudo</th>
+        </tr>
+      </thead>
+      <tbody>
+        @each(historic in historics)
+          <tr>
+            <td>{{{historic.date}}}</td>
+            <td>{{{historic.content}}}</td>
+          </tr>
+        @endeach
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div id="createHistoric" class="modal">
+  <form action="{{{ route('HistoricsController.create') }}}" method="POST">
+    <div class="modal-content mb-3">
+      <h4>Criar Histórico</h4>
+      <hr class="mt-1 mb=2">
+      <input type="hidden" name="client_id" value="{{{client.id}}}">
+      <input type="date" name="date">
+      <input type="text" name="content" placeholder="Conteudo">
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-small grey">Cancelar</a>
+      <button type="submit" class="waves-effect waves-green btn-small teal">Confirmar</button>
+    </div>
+  </form>
+</div>
+        
 
 @endsection
 
