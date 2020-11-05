@@ -11,24 +11,13 @@
 
 @section('main')
 
-<form action=" {{ route('OrdersController.edit') }} " action="POST">
+<form action="{{ route('OrdersController.update') }}" method="POST">
 
   <div class="section-title mt-1">
     <h4>Editar Ordem</h4>
   </div>
 
   <hr class="mb-4">
-
-  <div class="row">
-    <div class="input-field col s12">
-      <select name="order_type" id="">
-        <option value="0">Visita</option>
-        <option value="1">Aplicação </option>
-        <option value="2">Reforço</option>
-      </select>
-      <label for="order_type">Tipo de Ordem</label>
-    </div>
-  </div>
   
   <div class="row">
     <div class="input-field col s6">
@@ -36,8 +25,32 @@
       <label for="client_name">Nome do Cliente</label>
     </div>
     <div class="input-field col s6">
-      <input type="text" name="order_id" value={{{ order.id }}} disabled>
+      <input type="text" value={{{ order.id }}} disabled>
+      <input type="hidden" name="order_id" value={{{ order.id }}}>
       <label for="client_name">ID da Ordem</label>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="input-field col s12">
+      <select name="order_type" id="">
+        <option value="0"
+          @if(order.type == 0)
+            selected
+          @endif
+        >Visita</option>
+        <option value="1"
+          @if(order.type == 1)
+            selected
+          @endif
+        >Aplicação </option>
+        <option value="2"
+          @if(order.type == 2)
+            selected
+          @endif
+        >Reforço</option>
+      </select>
+      <label for="order_type">Tipo de Ordem</label>
     </div>
   </div>
 
@@ -50,6 +63,11 @@
     </div>
   </div>
 
+  <div class="flex-wrapper justify-content-center mt-2">
+    <button class="btn waves-effect waves-light" type="submit" name="action">Enviar
+      <i class="material-icons right">send</i>
+    </button>
+  </div>
 </form>
   
 

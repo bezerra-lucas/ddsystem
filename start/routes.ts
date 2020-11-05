@@ -32,6 +32,8 @@ Route.group(() => {
 
 Route.group(() => {
   Route.get('/', 'ServicesController.index')
+  Route.post('/editar', 'ServicesController.update')
+
   Route.post('/cadastrar', 'ServicesController.create')
   Route.get('/apagar/:id', 'ServicesController.delete')
 }).prefix('servicos').middleware('auth')
@@ -56,9 +58,12 @@ Route.group(() => {
 
 Route.group(() => {
   Route.get('/agenda', 'OrdersController.schedule')
-  Route.get('/painel/:id', 'OrdersController.panel')
 
-  Route.post('/painel/editar', 'OrdersController.edit')
+  Route.get('/cadastrar/:id', 'OrdersController.register')
+  Route.post('/cadastrar', 'OrdersController.create')
+
+  Route.get('/editar/:id', 'OrdersController.edit')
+  Route.post('/editar', 'OrdersController.update')
 }).prefix('ordens').middleware('auth')
 
 Route.get('/', async ({ view }) => {

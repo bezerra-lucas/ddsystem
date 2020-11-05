@@ -46,12 +46,12 @@
           <tr>
             <td>
               @if(order.type == 0)
-                <div class="table-badge orange darken-3">
+                <div class="table-badge blue darken-3">
                   Visita
                 </div>
               @endif
               @if(order.type == 1)
-                <div class="table-badge orange darken-3">
+                <div class="table-badge green darken-3">
                   Aplicação
                 </div>
               @endif
@@ -63,7 +63,8 @@
             </td>
             <td>{{{order.dateTime}}}</td>
             <td>
-              <a class="btn-floating btn-small waves-effect waves-light orange modal-trigger" href="#sendOrder{{{order.id}}}"><i class="material-icons">send</i></a>
+              <a class="btn-floating btn-small waves-effect waves-light deep-orange darken-1 modal-trigger" href="/ordens/cadastrar"><i class="material-icons">send</i></a>
+              <a class="btn-floating btn-small waves-effect waves-light indigo darken-2 modal-trigger" href="/ordens/editar/{{{order.id}}}"><i class="material-icons">edit</i></a>
               <a class="btn-floating btn-small waves-effect waves-light teal modal-trigger" href="/orcamentos/editar/{{{order.budget_id}}}"><i class="material-icons">receipt_long</i></a>
             </td>
           </tr>
@@ -80,8 +81,7 @@
       <div id="sendOrder{{{order.id}}}" class="modal">
         <div class="modal-content mb-3">
           <h4>Enviar Orçamento por Email</h4>
-          <p>Selecione o email desejado, você pode adicionar novos emails ou editar os atuais indo até a aba informações.</p>
-          <hr class="mt-1 mb-2">
+          <p class="mb-2">Selecione o email desejado, você pode adicionar novos emails ou editar os atuais indo até a aba informações.</p>
           <input type="hidden" value="{{{order.id}}}" name="order_id">
           <select name="email">
             <option value="" selected disabled>Selecione um Email</option>

@@ -1,6 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 import Service from 'App/Models/Service'
+import { ViewRoot } from 'public/fullcalendar/common/main'
 
 export default class ServicesController {
   public async index ({ view } : HttpContextContract){
@@ -8,6 +9,16 @@ export default class ServicesController {
     return view.render('servicos/index', {
       services: services,
     })
+  }
+
+  public async update ({ request, response } : HttpContextContract){
+    const data = request.all()
+    const service = await Service.find(data.service_id)
+    if(service){
+      service.name = data.service_name
+      await service.save()
+    }
+    return response.redirect('back')
   }
 
   public async create ({ request, response, auth } : HttpContextContract){
