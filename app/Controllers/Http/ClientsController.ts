@@ -116,8 +116,8 @@ export default class ClientController {
     today = yyyy + '-' + mm + '-' + dd
 
     await Historic.create({
-      date: today,
-      content: 'Cliente criado',
+      date: onlyAlpha(today),
+      content: 'Cliente Cadastrado',
       client_id: client.id,
       user_id: auth.user?.id,
     })
@@ -245,6 +245,22 @@ export default class ClientController {
       FROM historics
       WHERE client_id = ${client?.id}
     `)
+
+    historics.rows.map(
+      function (historic){
+        historic.date =
+        historic.date.charAt(6) +
+        historic.date.charAt(7) +
+        '/' +
+        historic.date.charAt(4) +
+        historic.date.charAt(5) +
+        '/' +
+        historic.date.charAt(0) +
+        historic.date.charAt(1) +
+        historic.date.charAt(2) +
+        historic.date.charAt(3)
+      }
+    )
 
     return view.render('clientes/historico', {
       client: client,
