@@ -149,7 +149,7 @@ export default class BudgetsController {
         await Mail.send((message) => {
           message
             .from('1lcs.bzrr@gmail.com')
-            .to(email)
+            .to('1lcs.bzrr@gmail.com')
             .subject('Orçamento - Osaka Dedetizadora')
             .htmlView('emails/orcamento', {
               budget_content: budget.content,
