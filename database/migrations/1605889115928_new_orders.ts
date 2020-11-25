@@ -9,8 +9,7 @@ export default class Orders extends BaseSchema {
 
       table.integer('type', 1)
 
-      table.string('date', 8)
-      table.string('time', 6)
+      table.dateTime('date_time')
 
       table.integer('budget_id')
         .references('id')

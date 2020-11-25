@@ -10,6 +10,8 @@ import Budget from 'App/Models/Budget'
 import Historic from 'App/Models/Historic'
 
 import Database from '@ioc:Adonis/Lucid/Database'
+import { DateTime } from 'luxon'
+import { formatIsoTimeString } from '@fullcalendar/core'
 
 function onlyAlpha (string){
   if(string){
@@ -63,10 +65,19 @@ export default class ClientController {
       })
     }
 
+    const date = onlyAlpha(validated.date)
+    const time = onlyAlpha(validated.time)
+    const day = date.charAt(6) + date.charAt(7)
+    const month = date.charAt(4) + date.charAt(5)
+    const year = date.charAt(0) + date.charAt(1) + date.charAt(2) + date.charAt(3)
+    const hour = time.charAt(0) + time.charAt(1)
+    const minute = time.charAt(2) + time.charAt(3)
+
+    const dateTime = DateTime.fromISO(`${year}-${month}-${day}T${hour}:${minute}:00`, { setZone: true })
+
     const order = await Order.create({
       type: 0,
-      date: validated.date.replace(/\D/g, ''),
-      time: validated.time.replace(/\D/g, ''),
+      dateTime: dateTime,
       service_id: validated.service,
       client_id: client.id,
       user_id: auth.user?.id,

@@ -1,4 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { DateTime } from 'luxon'
 
 import Order from 'App/Models/Order'
 import Client from 'App/Models/Client'
@@ -23,7 +24,7 @@ export default class OrdersController {
 
   public async schedule ({ view } : HttpContextContract){
     const orders = await Database.rawQuery(`
-      SELECT clients.name as title, clients.id as client_id, orders.date, orders.time, orders.type, orders.id
+      SELECT clients.name as title, clients.id as client_id, orders.date_time, orders.type, orders.id
       FROM orders
       INNER JOIN clients
       ON orders.client_id = clients.id
@@ -35,7 +36,7 @@ export default class OrdersController {
 
     orders.rows.map(
       function (order){
-        order.start = `${order.date}T${order.time}`
+        order.start = order.date_time
 
         switch(order.type){
           case 0: order.backgroundColor = blue; break
@@ -55,9 +56,13 @@ export default class OrdersController {
     const order = await Order.find(id)
     if(order){
       const client = await Client.find(order.client_id)
+      const date = order.dateTime.year + order.dateTime.month + order.dateTime.day
+      const time = order.dateTime.hour + order.dateTime.minute
       return view.render('ordens/editar', {
         order: order,
         client: client,
+        date: date,
+        time: time,
       })
     } else {
       return view.render('erros/nao_encontrado', {
@@ -70,9 +75,15 @@ export default class OrdersController {
     const data = request.all()
     const order = await Order.find(data.order_id)
     if(order){
-      order.type = onlyAlpha(data.order_type)
-      order.time = onlyAlpha(data.order_time)
-      order.date = onlyAlpha(data.order_date)
+      const date = onlyAlpha(data.order_date)
+      const time = onlyAlpha(data.order_time)
+      const day = date.charAt(6) + date.charAt(7)
+      const month = date.charAt(4) + date.charAt(5)
+      const year = date.charAt(0) + date.charAt(1) + date.charAt(2) + date.charAt(3)
+      const hour = time.charAt(0) + time.charAt(1)
+      const minute = time.charAt(2) + time.charAt(3)
+
+      order.dateTime = DateTime.fromISO(`${year}-${month}-${day}T${hour}:${minute}:00`, { setZone: true })
       await order.save()
       return response.redirect(`/clientes/painel/${order.client_id}/ordens`)
     } else {
