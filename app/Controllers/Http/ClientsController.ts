@@ -11,7 +11,7 @@ import Budget from 'App/Models/Budget'
 import Historic from 'App/Models/Historic'
 
 import Database from '@ioc:Adonis/Lucid/Database'
-import { formatIsoTimeString } from '@fullcalendar/core'
+// import { formatIsoTimeString } from '@fullcalendar/core'
 
 function onlyAlpha (string){
   if(string){
@@ -77,15 +77,7 @@ export default class ClientController {
 
     const order = await Order.create({
       type: 0,
-      dateTime: DateTime.fromObject({ 
-        year: 2020,
-        month: 12,
-        day: 7,
-        hour: 10, 
-        minute: 26, 
-        second: 6, 
-        zone: 'local' 
-      }),
+      dateTime: dateTime,
       service_id: validated.service,
       client_id: client.id,
       user_id: auth.user?.id,

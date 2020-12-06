@@ -113,7 +113,7 @@ export default class BudgetsController {
     const order = await Order.find(request.input('order_id'))
     const budget = await Budget.findBy('order_id', order?.budget_id)
 
-    const email = await request.input('email')
+    // const email = await request.input('email')
 
     if(budget){
       var filename = generateRandomString()

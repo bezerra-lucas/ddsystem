@@ -1,7 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 import Service from 'App/Models/Service'
-import { ViewRoot } from 'public/fullcalendar/common/main'
+// import { ViewRoot } from 'public/fullcalendar/common/main'
 
 export default class ServicesController {
   public async index ({ view } : HttpContextContract){
