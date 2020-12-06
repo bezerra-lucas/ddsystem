@@ -1,4 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { DateTime } from 'luxon'
 
 import Order from 'App/Models/Order'
 import Client from 'App/Models/Client'
@@ -55,9 +56,13 @@ export default class OrdersController {
     const order = await Order.find(id)
     if(order){
       const client = await Client.find(order.client_id)
+      const date = order.dateTime.year + order.dateTime.month + order.dateTime.day
+      const time = order.dateTime.hour + order.dateTime.minute
       return view.render('ordens/editar', {
         order: order,
         client: client,
+        date: date,
+        time: time,
       })
     } else {
       return view.render('erros/nao_encontrado', {
@@ -70,9 +75,21 @@ export default class OrdersController {
     const data = request.all()
     const order = await Order.find(data.order_id)
     if(order){
+<<<<<<< HEAD
       order.type = onlyAlpha(data.order_type)
       // order.time = onlyAlpha(data.order_time)
       // order.date = onlyAlpha(data.order_date)
+=======
+      const date = onlyAlpha(data.order_date)
+      const time = onlyAlpha(data.order_time)
+      const day = date.charAt(6) + date.charAt(7)
+      const month = date.charAt(4) + date.charAt(5)
+      const year = date.charAt(0) + date.charAt(1) + date.charAt(2) + date.charAt(3)
+      const hour = time.charAt(0) + time.charAt(1)
+      const minute = time.charAt(2) + time.charAt(3)
+
+      order.dateTime = DateTime.fromISO(`${year}-${month}-${day}T${hour}:${minute}:00`, { setZone: true })
+>>>>>>> f878002eb369463b11c59c219bff491592428965
       await order.save()
       return response.redirect(`/clientes/painel/${order.client_id}/ordens`)
     } else {

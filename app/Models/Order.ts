@@ -9,7 +9,7 @@ export default class Order extends BaseModel {
   public type: Number
 
   @column()
-  public date_time: DateTime
+  public dateTime: DateTime
 
   @column()
   public service_id: Number

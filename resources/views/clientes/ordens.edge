@@ -27,11 +27,13 @@
   <div class="container">  
     <div class="section-title mt-1 mb-1">
       <h4>Ordens</h4>
-      <a class="btn-floating btn-large waves-effect waves-light blue darken-1 modal-trigger" href="#services_modal"><i class="material-icons">add</i></a>
+      <a class="btn-floating btn-large waves-effect waves-light blue darken-1 modal-trigger" id="create_order"><i class="material-icons">add</i></a>
     </div>
     <hr>
-    @if(!orders)
-      Nenhuma ordem cadastrada!
+    @if(orders == false)
+      <div class="alert indigo">
+        <p>Nenhuma ordem encontrada para este cliente, clique no botão + para adicionar uma ordem!</p> 
+      </div>
     @else
       <table>
         <thead>
@@ -76,6 +78,24 @@
 </div>
 </div>
 
+<div class="background">
+  <div class="selectOrderType">
+    <div></div>
+    <a class="" href="/ordens/cadastrar/plano">
+      <div class="icon teal">
+        <i class="material-icons">date_range</i>
+      </div>
+      <p>Plano de Ação</p>
+    </a>
+    <a class="" href="/ordens/cadastrar">
+      <div class="icon indigo">
+        <i class="material-icons">schedule</i>
+      </div>
+      <p>Ordem Única</p>
+    </a>
+  </div>
+</div>
+
   @each(order in orders)
     <form action="{{ route('BudgetsController.send') }}" method="post">
       <div id="sendOrder{{{order.id}}}" class="modal">
@@ -107,11 +127,21 @@
 
   $(document).ready(function(){
     $('.tabs').tabs();
+    $('.background').hide();
   });
 
   $(document).ready(function(){
     $('select').formSelect();
   });
+
+  $('.background').on('click', () => {
+    $('.background').hide();
+  })
+
+  $('#create_order').on('click', () => {
+    $('.background').show();
+  })
+
 
 </script>
 @endsection
