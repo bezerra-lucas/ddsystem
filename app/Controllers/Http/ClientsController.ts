@@ -1,5 +1,6 @@
 import { schema } from '@ioc:Adonis/Core/Validator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { DateTime } from 'luxon'
 
 import Service from 'App/Models/Service'
 import Client from 'App/Models/Client'
@@ -65,8 +66,17 @@ export default class ClientController {
 
     const order = await Order.create({
       type: 0,
-      date: validated.date.replace(/\D/g, ''),
-      time: validated.time.replace(/\D/g, ''),
+
+      date_time: DateTime.fromObject({ 
+        year: 2020,
+        month: 12,
+        day: 7,
+        hour: 10, 
+        minute: 26, 
+        second: 6, 
+        zone: 'local' 
+      }),
+
       service_id: validated.service,
       client_id: client.id,
       user_id: auth.user?.id,
@@ -208,28 +218,6 @@ export default class ClientController {
       FROM contacts
       WHERE client_id = ${client?.id}
     `)
-
-    orders.rows.map(
-      function (order){
-        order.dateTime =
-        order.date.charAt(6) +
-        order.date.charAt(7) +
-        '/' +
-        order.date.charAt(4) +
-        order.date.charAt(5) +
-        '/' +
-        order.date.charAt(0) +
-        order.date.charAt(1) +
-        order.date.charAt(2) +
-        order.date.charAt(3) +
-        ' - ' +
-        order.time.charAt(0) +
-        order.time.charAt(1) +
-        ':' +
-        order.time.charAt(2) +
-        order.time.charAt(3)
-      }
-    )
 
     return view.render('clientes/ordens', {
       client: client,

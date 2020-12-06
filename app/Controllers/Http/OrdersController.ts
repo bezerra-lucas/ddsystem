@@ -23,7 +23,7 @@ export default class OrdersController {
 
   public async schedule ({ view } : HttpContextContract){
     const orders = await Database.rawQuery(`
-      SELECT clients.name as title, clients.id as client_id, orders.date, orders.time, orders.type, orders.id
+      SELECT clients.name as title, clients.id as client_id, orders.date_time, orders.type, orders.id
       FROM orders
       INNER JOIN clients
       ON orders.client_id = clients.id
@@ -35,7 +35,7 @@ export default class OrdersController {
 
     orders.rows.map(
       function (order){
-        order.start = `${order.date}T${order.time}`
+        order.start = order.date_time
 
         switch(order.type){
           case 0: order.backgroundColor = blue; break
@@ -71,8 +71,8 @@ export default class OrdersController {
     const order = await Order.find(data.order_id)
     if(order){
       order.type = onlyAlpha(data.order_type)
-      order.time = onlyAlpha(data.order_time)
-      order.date = onlyAlpha(data.order_date)
+      // order.time = onlyAlpha(data.order_time)
+      // order.date = onlyAlpha(data.order_date)
       await order.save()
       return response.redirect(`/clientes/painel/${order.client_id}/ordens`)
     } else {

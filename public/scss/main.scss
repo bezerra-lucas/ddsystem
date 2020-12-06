@@ -362,6 +362,7 @@ nav.nav{
   box-shadow: none !important;
   background-color:  rgb(245, 245, 245);
   .nav-wrapper{
+    z-index: 50;
     ul{
       li{
         a{
@@ -386,10 +387,75 @@ nav.nav{
 }
 
 i.material-icons{
-  -webkit-touch-callout: none;
-    -webkit-user-select: none;
-     -khtml-user-select: none;
-       -moz-user-select: none;
-        -ms-user-select: none;
-            user-select: none;
+  user-select: none;
+}
+
+.sidenav-trigger{
+  color: rgb(51, 51, 51);
+}
+
+.sidenav-overlay {
+  z-index: 100;
+}
+
+.sidenav{
+  z-index: 150;
+}
+
+
+
+@keyframes appearing {
+  0% {
+    transform: translateY(+100%);
+    opacity: 0.2;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.flash-container{
+  z-index: 300;
+  bottom: 10vh;
+  position: fixed;
+  width: 100vw;
+  justify-content: center;
+  height: 70vh;
+  padding-top: auto;
+}
+
+.flash-ellements{
+  margin: 220px 0 0 0 !important;
+}
+
+.flash{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0 auto 20px auto;
+  z-index: 300;
+  width: 80%;
+  max-width: 1200px;
+  border-radius: 100px;
+  animation: 1s ease-out 0s 1 appearing; 
+  padding: 10px 0 10px 0;
+
+  p{
+    margin: 0;
+    color: rgb(255, 255, 255);
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+  }
+
+  .material-icons{
+    color: rgba(255, 255, 255, 0.473);
+    cursor: pointer;
+    margin-right: 20px;
+
+    &:hover{
+      color: rgba(255, 255, 255, 1);
+    }
+  }
 }
