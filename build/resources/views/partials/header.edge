@@ -1,0 +1,75 @@
+<ul id="dropdown1" class="dropdown-content">
+  <li><a href="/clientes/cadastrar">Cadastrar Cliente</a></li>
+  <li><a href="/clientes/pesquisar">Pesquisar Cliente</a></li>
+</ul>
+
+<ul id="users" class="dropdown-content">
+  <li><a href="/usuarios">Gerenciar Usuários</a></li>
+  <li><a href="/usuarios/cargos">Gerenciar Cargos</a></li>
+</ul>
+
+<ul id="dropdown2" class="dropdown-content">
+  <li><a href="/clientes/cadastrar">Cadastrar Cliente</a></li>
+  <li><a href="/clientes/pesquisar">Pesquisar Cliente</a></li>
+</ul>
+
+<ul id="users2" class="dropdown-content">
+  <li><a href="/usuarios">Gerenciar Usuários</a></li>
+  <li><a href="/usuarios/cargos">Gerenciar Cargos</a></li>
+</ul>
+
+<nav class="nav">
+  <div class="nav-wrapper">
+    <ul id="nav-mobile" class="left hide-on-med-and-down">
+      <li><a href="/"><span class="page-title">Osaka Dedetizadora</span></a></li>
+      <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Clientes<i class="material-icons right dropdown-icon">arrow_drop_down</i></a></li>
+      <li><a href="/ordens/agenda">Agenda</a></li>
+      <li><a class="dropdown-trigger" href="#!" data-target="users">Usuários<i class="material-icons right dropdown-icon">arrow_drop_down</i></a></li>
+      <li><a href="/servicos">Serviços</a></li>
+      <li><a href="/modelos">Modelos de Orçamento</a></li>
+      <li><a href="/rastreamento">Painel GPS</a></li>
+    </ul>
+    <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    <ul id="nav-mobile" class="right mr-1">
+      <li><a class="notification-panel-trigger"><i class="material-icons">notifications</i></a></li>
+      <li><a class="user-panel-trigger"><i class="material-icons">person</i></a></li>
+    </ul>
+  </div>
+</nav>
+
+<ul class="sidenav" id="mobile-demo">
+  <li><a href="/"><span class="page-title">Osaka Dedetizadora</span></a></li>
+  <li><a class="dropdown-trigger" href="#!" data-target="dropdown2">Clientes<i class="material-icons right dropdown-icon">arrow_drop_down</i></a></li>
+  <li><a href="/ordens/agenda">Agenda</a></li>
+  <li><a class="dropdown-trigger" href="#!" data-target="users2">Usuários<i class="material-icons right dropdown-icon">arrow_drop_down</i></a></li>
+  <li><a href="/servicos">Serviços</a></li>
+  <li><a href="/modelos">Modelos de Orçamento</a></li>
+  <li><a href="/rastreamento">Painel GPS</a></li>
+</ul>
+
+<div class="card-panel grey lighten-3 notification-panel hide">
+  <div class="panel-header">Notificações</div>
+  <ul class="panel-body">
+    <li class="notification"><div class="notification-icon green darken-1"><i class="material-icons">phone</i></div> Reaplicação agendada para hoje. </li>
+  </ul>
+</div>
+
+<div class="card-panel user-panel hide no-padding">
+  <div class="user-panel-header">
+    <div class="user-icon blue darken-1">
+      <i class="material-icons">person</i>
+    </div>
+    <div class="user-identification">
+      <span class="user-name">{{{auth.user.name}}}</span>
+      {{{auth.user.email}}}
+    </div>
+    {{--  <div class="user-actions">
+      <a href="/usuarios/configuracoes"><i class="material-icons">settings</i></a>
+      <a href="/logout"><i class="material-icons">exit_to_app</i></a>
+    </div>  --}}
+  </div>
+  <ul class="options">
+    {{--  <li><a href="/" ><i class="material-icons">settings</i><span>Configurações</span></a></li>  --}}
+    <li><a href="/logout" ><i class="material-icons">exit_to_app</i><span>Sair</span></a></li>
+  </ul>
+</div>

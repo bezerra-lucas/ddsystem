@@ -1,0 +1,147 @@
+@layout('layouts/master.edge')
+
+@section('style')
+<style>
+
+  form.card{
+    padding: 20px;
+  }
+
+  .modal{
+    max-width: 600px;
+  }
+
+</style>
+@endsection
+
+
+
+@section('main')
+
+<ul class="tabs tabs-fixed-width tab-demo z-depth-1">
+  <li class="tab"><a target="_self" href="/clientes/painel/{{client.id}}/informacoes">Informações</a></li>
+  <li class="tab"><a target="_self" href="/clientes/painel/{{client.id}}/ordens" class="active">Ordens</a></li>
+  <li class="tab"><a target="_self" href="/clientes/painel/{{client.id}}/historico">Histórico</a></li>
+</ul>
+<div class="card flex-wrapper justify-content-center pb-4 pt-2">
+  <div class="container">  
+    <div class="section-title mt-1 mb-1">
+      <h4>Ordens</h4>
+      <a class="btn-floating btn-large waves-effect waves-light blue darken-1 modal-trigger" id="create_order"><i class="material-icons">add</i></a>
+    </div>
+    <hr>
+    @if(orders == false)
+      <div class="alert indigo">
+        <p>Nenhuma ordem encontrada para este cliente, clique no botão + para adicionar uma ordem!</p> 
+      </div>
+    @else
+      <table>
+        <thead>
+          <tr>
+            <th>Tipo</th>
+            <th>Data</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+      <tbody>
+        @each(order in orders)
+          <tr>
+            <td>
+              @if(order.type == 0)
+                <div class="table-badge blue darken-3">
+                  Visita
+                </div>
+              @endif
+              @if(order.type == 1)
+                <div class="table-badge green darken-3">
+                  Aplicação
+                </div>
+              @endif
+              @if(order.type == 2)
+                <div class="table-badge orange darken-3">
+                  Reforço
+                </div>
+              @endif
+            </td>
+            <td>{{{order.date_time}}}</td>
+            <td>
+              <a class="btn-floating btn-small waves-effect waves-light deep-orange darken-1 modal-trigger" href="#sendOrder{{{order.id}}}"><i class="material-icons">send</i></a>
+              <a class="btn-floating btn-small waves-effect waves-light indigo darken-2 modal-trigger" href="/ordens/editar/{{{order.id}}}"><i class="material-icons">edit</i></a>
+              <a class="btn-floating btn-small waves-effect waves-light teal modal-trigger" href="/orcamentos/editar/{{{order.budget_id}}}"><i class="material-icons">receipt_long</i></a>
+            </td>
+          </tr>
+        @endeach
+      </tbody>
+    </table>
+    @endif
+  </div>
+</div>
+</div>
+
+<div class="background">
+  <div class="selectOrderType">
+    <div></div>
+    <a class="" href="/ordens/cadastrar/plano">
+      <div class="icon teal">
+        <i class="material-icons">date_range</i>
+      </div>
+      <p>Plano de Ação</p>
+    </a>
+    <a class="" href="/ordens/cadastrar">
+      <div class="icon indigo">
+        <i class="material-icons">schedule</i>
+      </div>
+      <p>Ordem Única</p>
+    </a>
+  </div>
+</div>
+
+  @each(order in orders)
+    <form action="{{ route('BudgetsController.send') }}" method="post">
+      <div id="sendOrder{{{order.id}}}" class="modal">
+        <div class="modal-content mb-3">
+          <h4>Enviar Orçamento por Email</h4>
+          <p class="mb-2">Selecione o email desejado, você pode adicionar novos emails ou editar os atuais indo até a aba informações.</p>
+          <input type="hidden" value="{{{order.id}}}" name="order_id">
+          <select name="email">
+            <option value="" selected disabled>Selecione um Email</option>
+            @each(contact in contacts)
+              <option value="{{{contact.email}}}">{{{contact.email}}}</option>
+            @endeach
+          </select>
+        </div>
+        <div class="modal-footer">
+          <a href="#!" class="modal-close waves-effect waves-green grey btn">Cancelar</a>
+          <button type="submit" class="modal-close waves-effect waves-green teal btn">Enviar</button>
+        </div>
+      </div>
+    </form>
+  @endeach
+          
+@endsection
+
+
+
+@section('script')
+<script>
+
+  $(document).ready(function(){
+    $('.tabs').tabs();
+    $('.background').hide();
+  });
+
+  $(document).ready(function(){
+    $('select').formSelect();
+  });
+
+  $('.background').on('click', () => {
+    $('.background').hide();
+  })
+
+  $('#create_order').on('click', () => {
+    $('.background').show();
+  })
+
+
+</script>
+@endsection

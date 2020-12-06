@@ -1,0 +1,41 @@
+@layout('layouts/master.edge')
+
+@section('style')
+
+@endsection
+
+
+@section('main')
+<div class="container">
+
+  <div class="section-title mt-1 mb-1">
+    <h4>Cargos</h4>
+    <a class="btn-floating btn-large waves-effect waves-light blue darken-1 modal-trigger" href="/usuarios/cargos/cadastrar"><i class="material-icons">add</i></a>
+  </div>
+  <hr>
+  @if(roles == false)
+    <div class="alert indigo">
+      <p>Nenhum cargo cadastrado!</p>
+    </div>
+  @else
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+    <tbody>
+      @each(role in roles)
+        <tr>
+          <td>{{{role.name}}}</td>
+          <td>
+            <a class="btn-floating btn-small waves-effect waves-light indigo modal-trigger"href="/usuarios/cargos/editar/{{{role.id}}}"><i class="material-icons">create</i></a>
+          </td>
+        </tr>
+      @endeach
+    </tbody>
+  </table>
+  @endif
+</div>
+@endsection

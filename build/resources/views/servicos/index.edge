@@ -1,0 +1,91 @@
+@layout('layouts/master.edge')
+
+@section('style')
+<style>
+
+  .modal{
+      max-width: 500px;
+    }
+
+</style>
+@endsection
+
+@section('main')
+<div class="container">
+
+  <div class="section-title mt-1 mb-1">
+    <h4>Serviços</h4>
+    <a class="btn-floating btn-large waves-effect waves-light blue darken-1 modal-trigger" href="#services_modal"><i class="material-icons">add</i></a>
+  </div>
+  <hr>
+  @if(services == false)
+    Nenhum serviço cadastrado!
+  @else
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+    <tbody>
+      @each(service in services)
+        <tr>
+          <td>{{{service.name}}}</td>
+          <td><a class="btn-floating btn-small waves-effect waves-light indigo modal-trigger" href="#services_edit{{{service.id}}}"><i class="material-icons">create</i></a></td>
+        </tr>
+      @endeach
+    </tbody>
+  </table>
+  @endif
+</div>
+
+@each(service in services)
+  <div id="services_edit{{{service.id}}}" class="modal">
+    <form action="{{ route('ServicesController.update') }}" method="post">
+      <div class="modal-content">
+        <h5>Editar Serviço</h5>
+        <hr class="mt-1 mb-2">
+        <div class="row">
+          <div class="input-field col s12">
+            <input type="hidden" name="service_id" value="{{{service.id}}}">
+            <input type="text" name="service_name" value="{{{service.name}}}">
+            <label for="service_name">Nome</label>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn waves-effect waves-light mb-2 mr-1" type="submit" name="action">Salvar</button>
+      </div>
+    </form>
+  </div>
+@endeach
+
+<div id="services_modal" class="modal">
+  <form action="{{ route('ServicesController.create') }}" method="post">
+    <div class="modal-content">
+      <h5>Adicionar Serviço</h5>
+      <hr class="mt-1 mb-2">
+      <div class="row">
+        <div class="input-field col s12">
+          <input type="text" name="service_name">
+          <label for="service_name">Nome</label>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn waves-effect waves-light mb-2 mr-1" type="submit" name="action">Salvar</button>
+    </div>
+  </form>
+</div>
+@endsection
+
+@section('script')
+<script>
+
+  $(document).ready(function(){
+    $('.modal').modal()
+  })
+
+</script>
+@endsection

@@ -1,0 +1,286 @@
+@layout('layouts/master.edge')
+
+@section('style')
+
+@endsection
+
+
+@section('main')
+<div class="container">
+
+  <form action="{{ route('RolesController.update') }}" method="POST">
+
+    <h4 class="mt-1 mb-1">Editar Cargo</h4>
+    <div class="row">
+      <div class="input-field col s12">
+        <input name="role_id" type="hidden" value="{{{role.id}}}">
+        <input placeholder="Administrador" name="role_name" type="text" class="validate" value="{{{role.name}}}">
+        <label for="role_name">Nome do Cargo</label>
+      </div>
+    </div>
+    
+      <h5 class="mt-1">Permissões</h5>
+      <span class="text-helper">Gerencie quais páginas o usuário terá acesso</span>
+      
+      <div class="row mt-1">
+        <div class="switch col s6 row">
+          <span class="switch-label col s6 col s6">Administrador</span>
+          <label class="col s6">
+            Não
+            <input type="checkbox" id="admin">
+            <span class="lever"></span>
+            Sim
+          </label>
+        </div>
+        <div class="switch col s6">
+          <span class="switch-label col s6">Cadastrar Clientes</span>
+          <label class="col s6">
+            Não
+            <input type="checkbox" id="has_permission_to_create_clients">
+            <span class="lever"></span>
+            Sim
+          </label>
+        </div>
+      </div>
+
+      <div class="row mt-1">
+        <div class="switch col s6 row">
+          <span class="switch-label col s6 col s6">Ver Painel de Clientes</span>
+          <label class="col s6">
+            Não
+            <input type="checkbox" id="has_permission_to_see_client_panel">
+            <span class="lever"></span>
+            Sim
+          </label>
+        </div>
+        <div class="switch col s6">
+          <span class="switch-label col s6">Gerenciar Orçamentos</span>
+          <label class="col s6">
+            Não
+            <input type="checkbox" id="has_permission_to_manage_budgets">
+            <span class="lever"></span>
+            Sim
+          </label>
+        </div>
+      </div>
+
+      <div class="row mt-1">
+        <div class="switch col s6 row">
+          <span class="switch-label col s6">Gerenciar Modelos de Orçamento</span>
+          <label class="col s6">
+            Não
+            <input type="checkbox" id="has_permission_to_manage_budget_layouts">
+            <span class="lever"></span>
+            Sim
+          </label>
+        </div>
+        <div class="switch col s6">
+          <span class="switch-label col s6">Gerenciar Ordens</span>
+          <label class="col s6">
+            Não
+            <input type="checkbox" id="has_permission_to_manage_orders">
+            <span class="lever"></span>
+            Sim
+          </label>
+        </div>
+      </div>
+
+      <div class="row mt-1">
+        <div class="switch col s6 row">
+          <span class="switch-label col s6">Gerenciar Histórico</span>
+          <label class="col s6">
+            Não
+            <input type="checkbox" id="has_permission_to_manage_historic">
+            <span class="lever"></span>
+            Sim
+          </label>
+        </div>
+        <div class="switch col s6">
+          <span class="switch-label col s6">Acessar Rastreador GPS</span>
+          <label class="col s6">
+            Não
+            <input type="checkbox" id="has_permission_to_access_gps_tracker">
+            <span class="lever"></span>
+            Sim
+          </label>
+        </div>
+      </div>
+      <div class="row mt-1">
+        <div class="switch col s6 row">
+          <span class="switch-label col s6">Gerenciar Serviços</span>
+          <label class="col s6">
+            Não
+            <input type="checkbox" id="has_permission_to_manage_services">
+            <span class="lever"></span>
+            Sim
+          </label>
+        </div>
+        <div class="switch col s6">
+          <span class="switch-label col s6">Gerenciar Usuários</span>
+          <label class="col s6">
+            Não
+            <input type="checkbox" id="has_permission_to_manage_users">
+            <span class="lever"></span>
+            Sim
+          </label>
+        </div>
+      </div>
+      <div class="flex-wrapper justify-content-center mt-2">
+        <button class="btn waves-effect waves-light" type="submit" name="action">Enviar
+          <i class="material-icons right">send</i>
+        </button>
+      </div>
+  </form>
+</div>
+@endsection
+
+@section('script')
+<script>
+  $(document).ready(function() {
+
+    var admin = $('#admin');
+    var has_permission_to_create_clients = $('#has_permission_to_create_clients');
+    var has_permission_to_see_client_panel = $('#has_permission_to_see_client_panel');
+    var has_permission_to_manage_budgets = $('#has_permission_to_manage_budgets');
+    var has_permission_to_manage_budget_layouts = $('#has_permission_to_manage_budget_layouts');
+    var has_permission_to_manage_orders = $('#has_permission_to_manage_orders');
+    var has_permission_to_manage_historic = $('#has_permission_to_manage_historic');
+    var has_permission_to_access_gps_tracker = $('#has_permission_to_access_gps_tracker');
+    var has_permission_to_manage_services = $('#has_permission_to_manage_services');
+    var has_permission_to_manage_users = $('#has_permission_to_manage_users');
+
+    if({{{role.has_permission_to_create_clients}}} === true){
+      has_permission_to_create_clients.prop('checked', true);
+    } else {
+      has_permission_to_create_clients.prop('checked', false);
+    }
+
+    if({{{role.has_permission_to_see_client_panel}}} === true){
+      has_permission_to_see_client_panel.prop('checked', true);
+    } else {
+      has_permission_to_see_client_panel.prop('checked', false);
+    }
+
+    if({{{role.has_permission_to_manage_budgets}}} === true){
+      has_permission_to_manage_budgets.prop('checked', true);
+    } else {
+      has_permission_to_manage_budgets.prop('checked', false);
+    }
+
+    if({{{role.has_permission_to_manage_budget_layouts}}} === true){
+      has_permission_to_manage_budget_layouts.prop('checked', true);
+    } else {
+      has_permission_to_manage_budget_layouts.prop('checked', false);
+    }
+
+    if({{{role.has_permission_to_manage_orders}}} === true){
+      has_permission_to_manage_orders.prop('checked', true);
+    } else {
+      has_permission_to_manage_orders.prop('checked', false);
+    }
+
+    if({{{role.has_permission_to_manage_historic}}} === true){
+      has_permission_to_manage_historic.prop('checked', true);
+    } else {
+      has_permission_to_manage_historic.prop('checked', false);
+    }
+
+    if({{{role.has_permission_to_access_gps_tracker}}} === true){
+      has_permission_to_access_gps_tracker.prop('checked', true);
+    } else {
+      has_permission_to_access_gps_tracker.prop('checked', false);
+    }
+
+    if({{{role.has_permission_to_manage_services}}} === true){
+      has_permission_to_manage_services.prop('checked', true);
+    } else {
+      has_permission_to_manage_services.prop('checked', false);
+    }
+
+    if({{{role.has_permission_to_manage_users}}} === true){
+      has_permission_to_manage_users.prop('checked', true);
+    } else {
+      has_permission_to_manage_users.prop('checked', false);
+    }
+
+    function toggleValue (value){
+      admin.prop('checked', value);
+      has_permission_to_create_clients.prop('checked', value);
+      has_permission_to_see_client_panel.prop('checked', value);
+      has_permission_to_manage_budgets.prop('checked', value);
+      has_permission_to_manage_budget_layouts.prop('checked', value);
+      has_permission_to_manage_orders.prop('checked', value);
+      has_permission_to_manage_historic.prop('checked', value);
+      has_permission_to_access_gps_tracker.prop('checked', value);
+      has_permission_to_manage_services.prop('checked', value);
+      has_permission_to_manage_users.prop('checked', value);
+    };
+
+    function toggleDisabled (value){
+      has_permission_to_create_clients.attr("disabled", value);
+      has_permission_to_see_client_panel.attr("disabled", value);
+      has_permission_to_manage_budgets.attr("disabled", value);
+      has_permission_to_manage_budget_layouts.attr("disabled", value);
+      has_permission_to_manage_orders.attr("disabled", value);
+      has_permission_to_manage_historic.attr("disabled", value);
+      has_permission_to_access_gps_tracker.attr("disabled", value);
+      has_permission_to_manage_services.attr("disabled", value);
+      has_permission_to_manage_users.attr("disabled", value);
+    }
+
+    admin.change(function() {
+      if($(this).is(':checked')){
+        toggleValue(true)
+        toggleDisabled(true)
+      } else {
+        toggleValue(false)
+        toggleDisabled(false)
+      };
+    });
+
+      $('form').on('submit', function(e){
+
+        function getInput( inputName ){
+          var input = $(`#${inputName}`);
+
+          if(input.is(':checked')){
+            $('form').append(`
+              <input type="hidden" value="1" name="${input.prop("id")}" />
+            `)
+          } else {
+            $('form').append(`
+              <input type="hidden" value="0" name="${input.prop("id")}" />
+            `)
+          };
+        };
+
+        getInput('admin');
+        getInput('has_permission_to_create_clients');
+        getInput('has_permission_to_see_client_panel');
+        getInput('has_permission_to_manage_budgets');
+        getInput('has_permission_to_manage_budget_layouts');
+        getInput('has_permission_to_manage_orders');
+        getInput('has_permission_to_manage_historic');
+        getInput('has_permission_to_access_gps_tracker');
+        getInput('has_permission_to_manage_services');
+        getInput('has_permission_to_manage_users');
+      });
+
+      if(
+        {{{role.has_permission_to_create_clients}}} === true &&
+        {{{role.has_permission_to_see_client_panel}}} === true &&
+        {{{role.has_permission_to_manage_budgets}}} === true &&
+        {{{role.has_permission_to_manage_budget_layouts}}} === true &&
+        {{{role.has_permission_to_manage_orders}}} === true &&
+        {{{role.has_permission_to_manage_historic}}} === true &&
+        {{{role.has_permission_to_access_gps_tracker}}} === true &&
+        {{{role.has_permission_to_manage_services}}} === true &&
+        {{{role.has_permission_to_manage_users}}} === true
+      ) {
+        admin.prop('checked', true);
+        toggleDisabled(true)
+      }
+  });
+
+</script>
+@endsection

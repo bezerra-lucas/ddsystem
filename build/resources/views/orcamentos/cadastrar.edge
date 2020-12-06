@@ -1,0 +1,95 @@
+@layout('layouts/master.edge')
+
+
+@section('style')
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<style>
+
+  .ql-editor{
+    min-height: 400px;
+  }
+
+</style>
+@endsection
+
+
+@section('main')
+
+<form class="container" id="submitForm" method="POST" action="{{ route('BudgetsController.create') }}">
+  <div class="section-title mt-1 mb-1">
+    <h4>Cadastrar Orçamento</h4>
+  </div>
+
+  <hr>
+
+  <div class="row">
+    <div class="input-field col s12 m6 mt-4">
+      <input value="{{{client.id}}}" name="client_id" type="hidden">
+      <input value="{{{client.id}}}" type="text" disabled>
+      <label for="client_id">ID do Cliente</label>
+    </div>
+    <div class="input-field col s12 m6 mt-4">
+      <input value="{{{client.name}}}" type="text" disabled>
+      <label for="client_name">Nome do Cliente</label>
+    </div>
+    <input id="budget_content" name="budget_content" type="hidden">
+    <input id="budget_layout_id" name="budget_layout_id" type="hidden">
+  </div>
+    
+  <div class="row">
+    <div class="input-field s12 mb-2 col">
+      <select id="selectLayout" class="">
+        <option value="" disabled selected>Escolha um Modelo</option>
+        <option value="empty">Nenhum</option>
+        @each(layout in layouts)
+          <option value="{{{layout.id}}}">{{{layout.name}}}</option>
+        @endeach
+      </select>
+      <label>Modelo de Orçamento</label>
+    </div>
+  </div>
+
+  <div id="editor"></div>
+
+  <div class="flex-wrapper justify-content-center mt-2">
+    <button class="btn waves-effect waves-light" type="submit" name="action">Enviar
+      <i class="material-icons right">send</i>
+    </button>
+  </div>
+</form>
+
+@endsection
+
+
+@section('script')
+<script>
+
+  $(document).ready(function(){
+    $('#selectLayout').formSelect();
+  });
+
+  $('#selectLayout').on('change', () => {
+    switch ( $('#selectLayout').val() ){
+      @each(layout in layouts)
+        case '{{{layout.id}}}':
+          $('#budget_layout_id').val('{{{layout.id}}}')
+          $('.ql-editor').empty();
+          $('.ql-editor').append(`{{{layout.content}}}`);
+          break;
+      @endeach
+      case 'empty':
+        $('#budget_layout_id').val('0')
+        $('.ql-editor').empty();
+        $('.ql-editor').append(``);
+        break;
+    }
+  });
+
+  $('#submitForm').on('submit', () => {
+    $('#budget_content').val($('.ql-editor').html());
+    return true;
+  });
+
+</script>
+@include('partials/quill_config')
+@endsection

@@ -1,0 +1,73 @@
+@layout('layouts/master.edge')
+
+@section('style')
+<style>
+
+  .modal{
+    max-width: 500px;
+  }
+
+</style>
+@endsection
+
+@section('main')
+<div class="container">
+
+  <div class="section-title mt-1 mb-1">
+    <h4>Modelos de Orçamento</h4>
+    <a class="btn-floating btn-large waves-effect waves-light blue darken-1 modal-trigger" href="/modelos/cadastrar"><i class="material-icons">add</i></a>
+  </div>
+  <hr>
+  @if(layouts == "")
+  <div class="alert indigo">
+    <p>Nenhum modelo cadastrado, clique no <b>+</b> acima para cadastrar.</p>
+  </div>
+  @else
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+    <tbody>
+      @each(layout in layouts)
+        <tr>
+          <td>{{layout.id}}</td>
+          <td>{{layout.name}}</td>
+          <td>
+            <a class="btn-floating btn-small waves-effect waves-light indigo" href="/modelos/editar/{{{layout.id}}}"><i class="material-icons">edit</i></a>
+            <a class="btn-floating btn-small waves-effect waves-light red modal-trigger" href="#modal{{{layout.id}}}"><i class="material-icons">delete</i></a>
+          </td>
+        </tr>
+      @endeach
+    </tbody>
+  </table>
+  @endif
+</div>
+@each(layout in layouts)
+  <div id="modal{{{layout.id}}}" class="modal">
+    <div class="modal-content">
+      <h4>Confirmação</h4>
+      <p>Tem certeza de que deseja excluir o modelo <b>"{{{layout.name}}}"</b>?</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect btn-small grey darken-1 color-white">Cancelar</a>
+      <a href="/modelos/apagar/{{layout.id}}" class="w0aves-effect btn-small red darken-1">Confirmar</a>
+    </div>
+  </div>
+@endeach
+
+
+@endsection
+
+@section('script')
+<script>
+
+  $(document).ready(function(){
+    $('.modal').modal()
+  })
+
+</script>
+@endsection

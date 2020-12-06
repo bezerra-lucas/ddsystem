@@ -1,0 +1,13 @@
+@layout('layouts/master.edge')
+
+@section('main')
+<div class="row">
+  <div class="homecard card col s12 grey lighten-3">
+    <div class="container">
+      <h5>Seja bem-vindo(a), <b>{{auth.user.name}}</b>!</h5>
+      <p>Para se desconectar ou alterar as suas configurações, vá até o painel superior e clique no icone de usuário. Caso queira saber mais informações sobre o sistema e tutoriais de como usá-lo, clique no botão abaixo.</p>
+      <a href="/docs" class="waves-effect waves-light btn indigo"><i class="material-icons left">article</i>Documentação</a>
+    </div>
+  </div>
+</div>
+@endsection

@@ -1,0 +1,115 @@
+@layout('layouts/master.edge')
+
+@section('style')
+<style>
+  form{
+    margin: 0 auto 0 auto;
+    max-width: 1000px;
+  }
+</style>
+@endsection
+
+@section('main')
+
+<form action="{{ route('OrdersController.update') }}" method="POST">
+
+  <div class="section-title mt-1">
+    <h4>Editar Ordem</h4>
+  </div>
+
+  <hr class="mb-4">
+  
+  <div class="row">
+    <div class="input-field col s6">
+      <input type="text" name="client_name" value={{{ client.name }}} disabled>
+      <label for="client_name">Nome do Cliente</label>
+    </div>
+    <div class="input-field col s6">
+      <input type="text" value={{{ order.id }}} disabled>
+      <input type="hidden" name="order_id" value={{{ order.id }}}>
+      <label for="client_name">ID da Ordem</label>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="input-field col s12">
+      <select name="order_type" id="">
+        <option value="0"
+          @if(order.type == 0)
+            selected
+          @endif
+        >Visita</option>
+        <option value="1"
+          @if(order.type == 1)
+            selected
+          @endif
+        >Aplicação </option>
+        <option value="2"
+          @if(order.type == 2)
+            selected
+          @endif
+        >Reforço</option>
+      </select>
+      <label for="order_type">Tipo de Ordem</label>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col s6">
+      <input class="mb-1" type="date" name="order_date" id="order_date" value="{{ date }}">
+    </div>
+    <div class="col s6">
+      <input class="mb-1" type="time" name="order_time" id="order_time"  value="{{ time }}">
+    </div>
+  </div>
+
+  <div class="flex-wrapper justify-content-center mt-2">
+    <button class="btn waves-effect waves-light" type="submit" name="action">Enviar
+      <i class="material-icons right">send</i>
+    </button>
+  </div>
+</form>
+  
+
+@endsection
+
+@section('script')
+<script>  
+
+  $(document).ready(function(){
+    $('select').formSelect();
+
+    const order_date = '{{{ order.date }}}'
+    var order_date_formated = `
+      ${order_date.charAt(0)}
+      ${order_date.charAt(1)}
+      ${order_date.charAt(2)}
+      ${order_date.charAt(3)}
+      -
+      ${order_date.charAt(4)}
+      ${order_date.charAt(5)}
+      -
+      ${order_date.charAt(6)}
+      ${order_date.charAt(7)}
+    `;
+    
+    order_date_formated = order_date_formated.replace(/\s/g, '')
+
+    $('#order_date').val(order_date_formated);
+
+  const order_time = '{{{ order.time }}}'
+  var order_time_formated = `
+    ${order_time.charAt(0)}
+    ${order_time.charAt(1)}
+    :
+    ${order_time.charAt(2)}
+    ${order_time.charAt(3)}
+  `;
+  
+  order_time_formated = order_time_formated.replace(/\s/g, '')
+
+  $('#order_time').val(order_time_formated);
+});
+
+</script>
+@endsection

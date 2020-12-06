@@ -1,0 +1,104 @@
+@layout('layouts/master.edge')
+
+@section('style')
+<style>
+
+  main{
+    max-width: 1080px;
+  }
+
+</style>
+@endsection
+
+
+@section('main')
+
+  <form action="{{ route('ClientsController.search') }}" method="POST">
+    <div class="row container">
+      <div class="input-field col s4">
+        <select name="search_column" id="select_column">
+          <option value="id">ID Cliente</option>
+          <option value="name">Nome</option>
+          <option value="cpf">CPF</option>
+          <option value="cnpj">CNPJ</option>
+        </select>
+        <label>Tipo de Pesquisa</label>
+      </div>
+      <div class="input-field col s8">
+        <input type="text" name="search_term" id="search_term">
+        <label for="search_term">Termo</label>
+      </div>
+    </div>
+    <div class="flex-wrapper justify-content-center">
+      <button class="btn waves-effect waves-light" type="submit" name="action">Pesquisar
+        <i class="material-icons right">search</i>
+      </button>
+    </div>
+  </form>
+
+  @if(results)
+    <table class="mt-5">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>CPF</th>
+          <th>CNPJ</th>
+          <th>Usuário</th>
+          <th>Painel</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @each(res in results)
+          <tr>
+            <td>{{res.id}}</td>
+            <td>{{res.name}}</td>
+            <td>
+              @if(res.cpf)
+                {{res.cpf.charAt(0)}}{{res.cpf.charAt(1)}}{{res.cpf.charAt(2)}}.{{res.cpf.charAt(3)}}{{res.cpf.charAt(4)}}{{res.cpf.charAt(5)}}.{{res.cpf.charAt(6)}}{{res.cpf.charAt(7)}}{{res.cpf.charAt(8)}}-{{res.cpf.charAt(9)}}{{res.cpf.charAt(10)}}
+              @else
+                -
+              @endif
+            </td>
+            <td>
+              @if(res.cnpj != null)
+                {{res.cnpj}}
+              @else
+                -
+              @endif
+            </td>
+            <td>
+              @if(res.user_name)
+                {{res.user_name}}
+              @else
+                -
+              @endif
+            </td>
+            <td><a class="btn-floating btn-small waves-effect waves-light indigo" href="/clientes/painel/{{{res.id}}}"><i class="material-icons">edit</i></a></td>
+          </tr>
+        @endeach
+      </tbody>
+    </table>
+  @endif
+@endsection
+
+
+@section('script')
+<script>
+
+  $('#select_column').on('change', function () {
+    if($(this).val() === 'id'){
+      $('#search_term').mask('00000000000000000');
+    } else {
+      $('#search_term').unmask();
+    };
+  });
+
+  $(document).ready(function(){
+    $('select').formSelect();
+    $('#search_term').mask('00000000000000000');
+  });
+
+</script>
+@endsection
