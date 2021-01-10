@@ -4,4 +4,3 @@ coverage
 .DS_STORE
 tmp
 build
-.env
