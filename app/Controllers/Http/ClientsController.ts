@@ -136,16 +136,17 @@ export default class ClientController {
     return response.redirect('/')
   }
 
-  public async update ({ view, request, response }: HttpContextContract){
+  public async update ({ request, response }: HttpContextContract){
     const data = request.all()
     const client = await Client.find(data.client_id)
     if(client){
-      return response.redirect(`/clientes/painel/${client.id}/informacoes`)
-    } else {
-      return view.render('erros/nao_encontrado', {
-        errorMessage: 'O cliente requisitado não foi encontrado na base de dados!',
-      })
+      client.is_pf = data.client_is_pf
+      client.name = data.client_name
+      client.cpf = data.client_cpf
+      client.cnpj = data.client_cnpj
+      await client.save()
     }
+    return response.redirect('back')
   }
 
   public async dashboard ({ view, response, params }: HttpContextContract){
@@ -200,8 +201,22 @@ export default class ClientController {
 
   public async edit ({ view, params }: HttpContextContract){
     const client = await Client.find(params.id)
+    const addresses = await Database.rawQuery(`
+      SELECT *
+      FROM addresses
+      WHERE client_id = ${client?.id}
+    `)
+
+    const contacts = await Database.rawQuery(`
+      SELECT *
+      FROM contacts
+      WHERE client_id = ${client?.id}
+    `)
+
     return view.render('clientes/editar', {
       client: client,
+      addresses: addresses.rows,
+      contacts: contacts.rows,
     })
   }
 

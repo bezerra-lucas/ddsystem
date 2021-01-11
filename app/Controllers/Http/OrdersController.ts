@@ -3,6 +3,7 @@ import { DateTime } from 'luxon'
 
 import Order from 'App/Models/Order'
 import Client from 'App/Models/Client'
+import Service from 'App/Models/Service'
 
 import Database from '@ioc:Adonis/Lucid/Database'
 
@@ -15,10 +16,39 @@ function onlyAlpha (string){
 }
 
 export default class OrdersController {
+  public async create ({ response, request, auth } : HttpContextContract){
+    const data = request.all()
+
+    const client = await Client.find(data.client_id)
+
+    const date = onlyAlpha(data.order_date)
+    const time = onlyAlpha(data.order_time)
+    const day = date.charAt(6) + date.charAt(7)
+    const month = date.charAt(4) + date.charAt(5)
+    const year = date.charAt(0) + date.charAt(1) + date.charAt(2) + date.charAt(3)
+    const hour = time.charAt(0) + time.charAt(1)
+    const minute = time.charAt(2) + time.charAt(3)
+
+    const dateTime = DateTime.fromISO(`${year}-${month}-${day}T${hour}:${minute}:00`, { setZone: true })
+
+    await Order.create({
+      type: data.order_type,
+      dateTime: dateTime,
+      service_id: data.service_id,
+      client_id: client?.id,
+      user_id: auth.user?.id,
+    })
+
+    return response.redirect('/clientes/painel/' + client?.id + '/ordens')
+  }
+
   public async register ({ view, params } : HttpContextContract){
     const client = await Client.find(params.id)
+    const services = await Service.all()
+
     return view.render('ordens/cadastrar', {
       client: client,
+      services: services,
     })
   }
 
@@ -54,15 +84,22 @@ export default class OrdersController {
   public async edit ({ view, params } : HttpContextContract){
     const id = params.id
     const order = await Order.find(id)
+    const services = await Service.all()
+
     if(order){
       const client = await Client.find(order.client_id)
-      const date = order.dateTime.year + order.dateTime.month + order.dateTime.day
-      const time = order.dateTime.hour + order.dateTime.minute
+      const dateTimeArray = JSON.stringify(order.dateTime).split('T')
+      console.log(dateTimeArray)
+      const date = dateTimeArray[0].slice(1, 11)
+      const time = dateTimeArray[1].slice(0, 8)
+      console.log('date: ' + date + '\n' + 'time: ' + time)
+
       return view.render('ordens/editar', {
         order: order,
         client: client,
         date: date,
         time: time,
+        services: services,
       })
     } else {
       return view.render('erros/nao_encontrado', {
