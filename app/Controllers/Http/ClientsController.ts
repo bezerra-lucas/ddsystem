@@ -140,13 +140,20 @@ export default class ClientController {
     const data = request.all()
     const client = await Client.find(data.client_id)
     if(client){
-      client.is_pf = data.client_is_pf
+
+      if(data.client_is_pf === '0'){
+        client.is_pf = false
+      } else {
+        client.is_pf = true
+      }
+
       client.name = data.client_name
-      client.cpf = data.client_cpf
-      client.cnpj = data.client_cnpj
+      client.cpf = onlyAlpha(data.client_cpf)
+      client.cnpj = onlyAlpha(data.client_cnpj)
+
       await client.save()
     }
-    return response.redirect('back')
+    return response.redirect(`/clientes/painel/${client.id}/informacoes`)
   }
 
   public async dashboard ({ view, response, params }: HttpContextContract){
@@ -178,6 +185,8 @@ export default class ClientController {
       client: client,
       addresses: addresses.rows,
       contacts: contacts.rows,
+      string_addresses: JSON.stringify(addresses.rows),
+      string_contacts: JSON.stringify(contacts.rows),
     })
   }
 
@@ -229,6 +238,13 @@ export default class ClientController {
         ON orders.user_id = users.id
       WHERE orders.client_id = ${client?.id}
     `)
+
+    orders.rows.map(
+      function (order){
+        order.dateTime = order.dateTime
+      }
+    )
+
     const contacts = await Database.rawQuery(`
       SELECT *
       FROM contacts
@@ -245,8 +261,10 @@ export default class ClientController {
   public async historic ({ view, params }: HttpContextContract){
     const client = await Client.find(params.id)
     const historics = await Database.rawQuery(`
-      SELECT *
+      SELECT historics.content, historics.date, users.id, users.name
       FROM historics
+        INNER JOIN users
+        ON historics.user_id = users.id
       WHERE client_id = ${client?.id}
     `)
 

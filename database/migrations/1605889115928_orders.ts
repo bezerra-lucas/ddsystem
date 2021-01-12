@@ -11,6 +11,8 @@ export default class Orders extends BaseSchema {
 
       table.dateTime('date_time')
 
+      table.string('content')
+
       table.integer('budget_id')
         .references('id')
         .inTable('budgets')

@@ -38,7 +38,7 @@
 </nav>
 
 <ul class="sidenav" id="mobile-demo">
-  <li><a href="/"><span class="page-title">Osaka Dedetizadora</span></a></li>
+  <li><a href="/"><span class="page-title">DDSystem</span></a></li>
   <li><a class="dropdown-trigger" href="#!" data-target="dropdown2">Clientes<i class="material-icons right dropdown-icon">arrow_drop_down</i></a></li>
   <li><a href="/ordens/agenda">Agenda</a></li>
   <li><a class="dropdown-trigger" href="#!" data-target="users2">Usuários<i class="material-icons right dropdown-icon">arrow_drop_down</i></a></li>
@@ -47,10 +47,22 @@
   <li><a href="/rastreamento">Painel GPS</a></li>
 </ul>
 
-<div class="card-panel grey lighten-3 notification-panel hide">
+<div class="card-panel white notification-panel hide">
   <div class="panel-header">Notificações</div>
   <ul class="panel-body">
-    <li class="notification"><div class="notification-icon green darken-1"><i class="material-icons">phone</i></div> Reaplicação agendada para hoje. </li>
+    @each(notification in request.notifications)
+      <li class="notification">
+        <a href="/clientes/painel/38/informacoes">
+          <div class="notification-icon green darken-1">
+            <i class="material-icons">phone</i>
+          </div>
+          <div class="notification-text">
+            <span class="up-text">{{notification.content}}</span>
+            <span class="down-text">{{notification.source}}</span>
+          </div>
+        </a>
+      </li>
+    @endeach
   </ul>
 </div>
 
