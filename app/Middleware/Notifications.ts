@@ -6,7 +6,8 @@ export default class Notifications {
     const notifications = [
       {
         content: 'Ação agendada para hoje',
-        source: 'José da Silva'
+        source: 'José da Silva',
+        id: 45
       }
     ]
 

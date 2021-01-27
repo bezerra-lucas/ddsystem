@@ -136,7 +136,7 @@ export default class ClientController {
     return response.redirect('/')
   }
 
-  public async update ({ request, response }: HttpContextContract){
+  public async update ({ request, response, view }: HttpContextContract){
     const data = request.all()
     const client = await Client.find(data.client_id)
     if(client){
@@ -153,7 +153,13 @@ export default class ClientController {
 
       await client.save()
     }
-    return response.redirect(`/clientes/painel/${client.id}/informacoes`)
+    if(client){
+      return response.redirect(`/clientes/painel/${client.id}/informacoes`)
+    } else {
+      return view.render('erros/nao_encontrado', {
+        errorMessage: 'O cliente requisitado não foi encontrado na base de dados!',
+      })
+    }
   }
 
   public async dashboard ({ view, response, params }: HttpContextContract){
