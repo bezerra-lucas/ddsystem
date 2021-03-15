@@ -1,0 +1,41 @@
+@layout('layouts/master.edge')
+
+@section('style')
+<style>
+
+  .modal{
+    max-width: 600px;
+  }
+
+</style>
+@endsection
+
+@section('main')
+
+  <h3>Documentação</h3>
+  <p>Clique nas seções para expandi-las.</p>
+
+  <div class="mt-3">
+    <ul class="collapsible">
+      <li>
+        <div class="collapsible-header"><i class="material-icons">people</i>Cadastrar um Cliente</div>
+        <div class="collapsible-body">
+          <p>1. Vá até o topo da página e no menu superior clique em <b>"clientes"</b> e logo após em <b>"cadastrar"</b>.</p>
+          <p>2. Digite os dados do cliente, desça a página até o fim e clique no botão <b>"enviar"</b>.</p>
+        </div>
+      </li>
+      <li>
+        <div class="collapsible-header"><i class="material-icons">create</i>Editar um Cliente</div>
+        <div class="collapsible-body">
+
+        </div>
+      </li>
+      <li>
+        <div class="collapsible-header"><i class="material-icons">people</i>Cadastrar um Cliente</div>
+        <div class="collapsible-body">
+
+        </div>
+      </li>
+    </ul>
+  </div>
+@endsection

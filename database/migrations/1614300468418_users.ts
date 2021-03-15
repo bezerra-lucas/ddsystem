@@ -8,6 +8,7 @@ export default class UsersSchema extends BaseSchema {
       table.increments('id').primary()
 
       table.string('name', 255).notNullable()
+      table.boolean('is_dark_mode').notNullable().defaultTo(false)
       table.string('email', 255).notNullable()
       table.string('password', 180).notNullable()
       table.string('remember_me_token').nullable()

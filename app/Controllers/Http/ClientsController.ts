@@ -34,6 +34,7 @@ export default class ClientController {
       schema: schema.create({
         type: schema.string(),
         name: schema.string(),
+        content: schema.string(),
         cpf: schema.string.optional(),
         cnpj: schema.string.optional(),
         date: schema.string(),
@@ -78,21 +79,19 @@ export default class ClientController {
     const order = await Order.create({
       type: 0,
       dateTime: dateTime,
+      content: validated.content,
       service_id: validated.service,
       client_id: client.id,
       user_id: auth.user?.id,
     })
 
-    const budget = await Budget.create({
+    await Budget.create({
       status: 0,
       content: '  ',
       order_id: order.id,
       client_id: client.id,
       user_id: auth.user?.id,
     })
-
-    order.budget_id = budget.id
-    await order.save()
 
     var currentAddresses = 0
     var currentContacts = 0
@@ -140,7 +139,6 @@ export default class ClientController {
     const data = request.all()
     const client = await Client.find(data.client_id)
     if(client){
-
       if(data.client_is_pf === '0'){
         client.is_pf = false
       } else {
@@ -245,11 +243,11 @@ export default class ClientController {
       WHERE orders.client_id = ${client?.id}
     `)
 
-    orders.rows.map(
-      function (order){
-        order.dateTime = order.dateTime
-      }
-    )
+    // orders.rows.map(
+    //   function (order){
+    //     order.dateTime = order.dateTime
+    //   }
+    // )
 
     const contacts = await Database.rawQuery(`
       SELECT *

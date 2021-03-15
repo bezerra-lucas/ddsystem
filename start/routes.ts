@@ -4,6 +4,18 @@ Route.get('/logout', 'AuthController.logout')
 
 Route.group(() => {
   Route.get('/', async ({ view }) => {
+    return view.render('docs/home')
+  })
+  Route.get('/clientes', async ({ view }) => {
+    return view.render('docs/clients')
+  })
+  Route.get('/autenticacao', async ({ view }) => {
+    return view.render('docs/autenticacao')
+  })
+}).prefix('docs').middleware('auth')
+
+Route.group(() => {
+  Route.get('/', async ({ view }) => {
     return view.render('login')
   })
   Route.post('/', 'AuthController.login')
@@ -37,6 +49,18 @@ Route.group(() => {
   Route.post('/cadastrar', 'ServicesController.create')
   Route.get('/apagar/:id', 'ServicesController.delete')
 }).prefix('servicos').middleware('auth')
+
+Route.group(() => {
+  Route.get('/', 'TechniciansController.index')
+  Route.post('/editar', 'TechniciansController.update')
+
+  Route.get('/cadastrar', async ({ view }) => {
+    return view.render('tecnicos/cadastrar')
+  })
+
+  Route.post('/cadastrar', 'TechniciansController.create')
+  Route.get('/apagar/:id', 'TechniciansController.delete')
+}).prefix('tecnicos').middleware('auth')
 
 Route.group(() => {
   Route.get('/', 'BudgetLayoutsController.index')

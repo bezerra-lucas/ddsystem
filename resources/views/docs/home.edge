@@ -1,0 +1,34 @@
+@layout('layouts/master.edge')
+
+@section('style')
+<style>
+
+  .modal{
+    max-width: 600px;
+  }
+
+</style>
+@endsection
+
+@section('main')
+
+  <h3>Documentação</h3>
+  <p>Clique nas seções para expandi-las.</p>
+
+  <ul>
+    <li><a href="/docs/clientes">Clientes</a></li>
+    <li><a href="/docs/autenticacao">Autenticação e Segurança</a></li>
+  </ul>
+
+@endsection
+
+@section('script')
+<script>
+  $( document ).ready(function() {
+    $.toast({
+      text: 'Set the `hideAfter` property to false and the toast will become sticky.',
+      hideAfter: false
+    })
+  });
+</script>
+@endsection

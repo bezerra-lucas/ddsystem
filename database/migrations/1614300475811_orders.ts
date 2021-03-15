@@ -13,10 +13,6 @@ export default class Orders extends BaseSchema {
 
       table.string('content')
 
-      table.integer('budget_id')
-        .references('id')
-        .inTable('budgets')
-
       table.integer('service_id')
         .references('id')
         .inTable('services')
