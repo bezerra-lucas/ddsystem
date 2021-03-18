@@ -112,15 +112,10 @@ export default class OrdersController {
     const data = request.all()
     const order = await Order.find(data.order_id)
     if(order){
-      const date = onlyAlpha(data.order_date)
-      const time = onlyAlpha(data.order_time)
-      const day = date.charAt(6) + date.charAt(7)
-      const month = date.charAt(4) + date.charAt(5)
-      const year = date.charAt(0) + date.charAt(1) + date.charAt(2) + date.charAt(3)
-      const hour = time.charAt(0) + time.charAt(1)
-      const minute = time.charAt(2) + time.charAt(3)
+      order.content = data.order_content
 
-      order.dateTime = DateTime.fromISO(`${year}-${month}-${day}T${hour}:${minute}:00`, { setZone: true })
+      order.dateTime = data.order_date + 'T' + data.order_time
+
       await order.save()
       return response.redirect(`/clientes/painel/${order.client_id}/ordens`)
     } else {

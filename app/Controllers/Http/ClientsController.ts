@@ -12,6 +12,7 @@ import Historic from 'App/Models/Historic'
 
 import Database from '@ioc:Adonis/Lucid/Database'
 // import { formatIsoTimeString } from '@fullcalendar/core'
+import moment from 'moment'
 
 function onlyAlpha (string){
   if(string){
@@ -243,11 +244,11 @@ export default class ClientController {
       WHERE orders.client_id = ${client?.id}
     `)
 
-    // orders.rows.map(
-    //   function (order){
-    //     order.dateTime = order.dateTime
-    //   }
-    // )
+    orders.rows.map(
+      function (order){
+        order.dateTime = moment(order.dateTime).format('DD/MM/YYYY - hh:mm')
+      }
+    )
 
     const contacts = await Database.rawQuery(`
       SELECT *

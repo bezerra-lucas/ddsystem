@@ -15,7 +15,7 @@
   <input type="hidden" name="order_id" value={{{ order.id }}}>
 
   <div class="section-title mt-1">
-    <h4>Cadastrar Ordem</h4>
+    <h4>Editar Ordem</h4>
   </div>
 
   <hr class="mb-4">
@@ -66,20 +66,24 @@
           >{{service.name}}</option>
         @endeach
       </select>
+      <label for="order_type">Serviço</label>
     </div>
   </div>
 
   <div class="row">
     <div class="input-field col s12">
       <textarea type="text" name="order_content" class="materialize-textarea">{{{ order.content }}}</textarea>
+      <label for="order_content">Descrição</label>
     </div>
   </div>
 
   <div class="row">
     <div class="col s6">
+      <label for="order_date">Data</label>
       <input class="mb-1" type="date" name="order_date" id="order_date" value="{{{date}}}">
     </div>
     <div class="col s6">
+      <label for="order_time">Hora</label>
       <input class="mb-1" type="time" name="order_time" id="order_time" value="{{{time}}}">
     </div>
   </div>
