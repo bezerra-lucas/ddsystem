@@ -21,6 +21,9 @@ export default class Order extends BaseModel {
   public client_id: Number
 
   @column()
+  public technician_id: Number
+
+  @column()
   public user_id: Number
 
   @column()

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { DateTime } from 'luxon'
 
@@ -7,6 +8,7 @@ import Service from 'App/Models/Service'
 import Technician from 'App/Models/Technician'
 
 import Database from '@ioc:Adonis/Lucid/Database'
+var tinycolor = require('tinycolor2')
 
 function onlyAlpha (string){
   if(string){
@@ -65,9 +67,40 @@ export default class OrdersController {
       SELECT * FROM technicians
     `)
 
+    const colors : string[] = []
+    var usedColors : string[] = []
+    var i = 0
+
+    while(i < technicians.rows.length){
+      var color = '#' + tinycolor.random().toHex()
+      colors.push(color)
+      if(tinycolor(color).isLight()){
+
+      }
+      i++
+    }
+
     technicians.rows.map(
       function (technician){
-        technician.color = '#4a148c'
+        function generateColor (){
+          return colors[Math.floor(Math.random() * colors.length)]
+        }
+        var isNewColor = false
+
+        while(isNewColor === false){
+          var currentColor : string = generateColor()
+          if(usedColors.find((color => currentColor === color)) === undefined){
+            technician.color = currentColor
+            usedColors.push(currentColor)
+            isNewColor = true
+          }
+        }
+      }
+    )
+
+    technicians.rows.map(
+      function (technician){
+        technician.isLight = tinycolor(technician.color).isLight()
       }
     )
 
@@ -78,11 +111,16 @@ export default class OrdersController {
           order.backgroundColor = '#424242'
         } else {
           order.technician_id
-          console.log(JSON.stringify(technicians.rows.find(technician => technician.id === order.technician_id)))
+          const color = technicians.rows.find(technician => technician.id === order.technician_id)?.color
+          order.backgroundColor = color
+          if(tinycolor(color).isLight()){
+            order.textColor = '#222'
+          } else {
+            order.textColor = '#fff'
+          }
         }
       }
     )
-
     return view.render('ordens/agenda', {
       orders: JSON.stringify(orders.rows),
       technicians: technicians.rows,
@@ -93,6 +131,7 @@ export default class OrdersController {
     const id = params.id
     const order = await Order.find(id)
     const services = await Service.all()
+    const technicians = await Technician.all()
 
     if(order){
       const client = await Client.find(order.client_id)
@@ -108,6 +147,7 @@ export default class OrdersController {
         date: date,
         time: time,
         services: services,
+        technicians: technicians,
       })
     } else {
       return view.render('erros/nao_encontrado', {
@@ -121,7 +161,7 @@ export default class OrdersController {
     const order = await Order.find(data.order_id)
     if(order){
       order.content = data.order_content
-
+      order.technician_id = data.technician_id
       order.dateTime = data.order_date + 'T' + data.order_time
 
       await order.save()

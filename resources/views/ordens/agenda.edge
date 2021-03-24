@@ -24,7 +24,13 @@
       <h4>Técnicos</h4>
       <ul class="technicians">        
         @each(technician in technicians)
-        <li class="indigo darken-1">{{technician.name}}</li>
+        <li class="" style="background-color: {{technician.color}}; color: 
+        @if(technician.isLight)
+          #222
+        @else
+          #eee
+        @endif
+        ">{{technician.name}}</li>
         @endeach
       </ul>
     </div>

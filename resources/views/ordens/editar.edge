@@ -72,6 +72,27 @@
 
   <div class="row">
     <div class="input-field col s12">
+      <select name="technician_id">
+        <option value="null"
+        @if(order.technician_id == null)
+        selected
+        @endif
+        >Nenhum</option>
+
+        @each(technician in technicians)
+          <option value="{{technician.id}}"
+          @if(technician.id === order.technician_id)
+          selected
+          @endif
+          >{{technician.name}}</option>
+        @endeach
+      </select>
+      <label for="order_type">Técnico</label>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="input-field col s12">
       <textarea type="text" name="order_content" class="materialize-textarea">{{{ order.content }}}</textarea>
       <label for="order_content">Descrição</label>
     </div>
