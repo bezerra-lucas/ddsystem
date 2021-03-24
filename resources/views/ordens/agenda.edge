@@ -19,7 +19,17 @@
 @endsection
 
 @section('main')
-  <div id="calendar"></div>
+  <div class="row">
+    <div class="col s4">
+      <h4>Técnicos</h4>
+      <ul class="technicians">        
+        @each(technician in technicians)
+        <li class="indigo darken-1">{{technician.name}}</li>
+        @endeach
+      </ul>
+    </div>
+    <div class="col s8" id="calendar"></div>
+  </div>
 @endsection
 
 @section('script')

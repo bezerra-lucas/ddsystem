@@ -17,6 +17,10 @@ export default class Orders extends BaseSchema {
         .references('id')
         .inTable('services')
 
+      table.integer('technician_id')
+        .references('id')
+        .inTable('technicians')
+
       table.integer('client_id')
         .notNullable()
         .references('id')

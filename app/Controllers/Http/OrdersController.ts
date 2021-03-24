@@ -4,6 +4,7 @@ import { DateTime } from 'luxon'
 import Order from 'App/Models/Order'
 import Client from 'App/Models/Client'
 import Service from 'App/Models/Service'
+import Technician from 'App/Models/Technician'
 
 import Database from '@ioc:Adonis/Lucid/Database'
 
@@ -54,30 +55,37 @@ export default class OrdersController {
 
   public async schedule ({ view } : HttpContextContract){
     const orders = await Database.rawQuery(`
-      SELECT clients.name as title, clients.id as client_id, orders.date_time, orders.type, orders.id
+      SELECT clients.name as title, clients.id as client_id, orders.date_time, orders.technician_id, orders.type, orders.id
       FROM orders
       INNER JOIN clients
-      ON orders.client_id = clients.id
+        ON orders.client_id = clients.id
     `)
 
-    const green = '#2e7d32'
-    const blue = '#0288d1'
-    const orange = '#ef6c00'
+    const technicians = await Database.rawQuery(`
+      SELECT * FROM technicians
+    `)
+
+    technicians.rows.map(
+      function (technician){
+        technician.color = '#4a148c'
+      }
+    )
 
     orders.rows.map(
-      function (order){
+      async function (order){
         order.start = order.date_time
-
-        switch(order.type){
-          case 0: order.backgroundColor = blue; break
-          case 1: order.backgroundColor = green; break
-          case 2: order.backgroundColor = orange; break
+        if(order.technician_id === null){
+          order.backgroundColor = '#424242'
+        } else {
+          order.technician_id
+          console.log(JSON.stringify(technicians.rows.find(technician => technician.id === order.technician_id)))
         }
       }
     )
 
     return view.render('ordens/agenda', {
       orders: JSON.stringify(orders.rows),
+      technicians: technicians.rows,
     })
   }
 

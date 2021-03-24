@@ -9,6 +9,7 @@ export default class Technicians extends BaseSchema {
 
       table.string('name')
       table.string('phone')
+      table.string('color')
       table.string('email')
 
       table.timestamps(true)
